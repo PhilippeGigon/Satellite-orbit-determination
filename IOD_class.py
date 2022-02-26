@@ -1,4 +1,3 @@
-from cmath import nan
 import math
 import os
 
@@ -32,9 +31,7 @@ def Create_IODs():
 
 
 class IOD:
-    # Encodes the initial data, the interpretation of an IOD
-    # can be found at: http://www.satobs.org/position/IODformat.html
-    # Constructor
+    # Encodes the initial data (IOD)
     def __init__(self, IOD_string):
         # The different elements are seperated by empty space in IOD
         # Methods
@@ -42,10 +39,13 @@ class IOD:
         self.Object_ID = a
         self.Station_ID = b
         self.Station_stat = c
+        # Date year month day
         self.Date = f[0:8]
+        # Time
         self.t_hour = int(f[8:10])
         self.t_minute = int(f[10:12])
-        self.t_msecond = int(f[12:])
+        self.t_msecond = int(f[12:])  # in miliseconds
+        # Measured angles
         # El either positive or negative
         if "-" in i:
             X, Y = i.split("-")
@@ -56,33 +56,24 @@ class IOD:
             self.Az = int(X)
             self.El = int(Y)
 
+    def get_Az(self):
+        return self.Az
+
+    def get_El(self):
+        return self.El
+
+    def get_miliseconds(self):
+        return self.t_msecond
+
     def printIOD(self):
         print("Az: ", self.Az, "El: ", self.El)
         print("HH: ", self.t_hour, "MM: ",
               self.t_minute, "SSSS: ", self.t_msecond)
-    ######################################
-    # Metaparameters
-    Object_ID = "XXX"
-    Station_ID = "XXX"
-    Station_stat = "XXX"
-
-    # Measured angles
-    Az = math.nan
-    El = math.nan
-    Anguncert = math.nan
-
-    # Date year month day
-    Date = "YYYYMMDD"
-
-    # Time
-    t_hour = math.nan
-    t_minute = math.nan
-    t_msecond = math.nan  # in miliseconds
-    tuncert = math.nan
 
 #############################################################
 
 
+# Debbug
 iodset = Create_IODs()
 for i in iodset:
     i.printIOD()
