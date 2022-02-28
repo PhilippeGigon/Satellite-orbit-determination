@@ -73,7 +73,7 @@ class IOD:
 #############################################################
 
 
-# Debbug
+# Debug
 iodset = Create_IODs()
 for i in iodset:
     i.printIOD()
