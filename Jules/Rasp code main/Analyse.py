@@ -33,9 +33,9 @@ def main(args):
     print('Création des fichiers IOD')
     creation_IOD_files(args,satellites)
 
-    print('Lancement de Elfind')
-    path = os.getcwd()
-    Run_elfind_on_sats(path)
+    #print('Lancement de Elfind')
+    #path = os.getcwd()
+    #Run_elfind_on_sats(path)
 
 if __name__ == '__main__':
     main(prologue.get_args())
