@@ -14,8 +14,8 @@ def positionAZEL (pixelx, pixely, anglevert, anglehoriz, boussole, pixscale):
     # anglevert, anglehoriz : radians, angles d'inclinaison de la caméra
     # boussole : radians, angle entre le nord et l'orientation de la camera
     # pixscale : en arcsec
-    h=anglevert*206265+(pixely*math.cos(anglehoriz)-pixelx*math.sin(anglehoriz))*pixscale
-    A=boussole*206265+(pixelx*math.cos(anglehoriz)+pixely*math.sin(anglehoriz))*pixscale
+    h = anglevert*206265+(pixely*math.cos(anglehoriz)-pixelx*math.sin(anglehoriz))*pixscale
+    A = boussole*206265+(pixelx*math.cos(anglehoriz)+pixely*math.sin(anglehoriz))*pixscale
 
     return(h,A)
 
@@ -30,7 +30,18 @@ def conv_altaz_to_IOD(h,A,signe,angleform,posuncert, date,timeuncert, objectnumb
     File.write(str1)
     File.write("\n")
     File.close()
+    return filename
 
+
+def one_IOD(IODs):
+    os.system('ls')
+    EndFile = open('./Processed/IOD/IOD.txt', 'w')
+    EndFile.truncate()
+    for i in range(0, len(IODs)):
+        iod = open(IODs[i], 'r')
+        line = iod.read()
+        EndFile.write(line)
+    EndFile.close()
 
 
 '''

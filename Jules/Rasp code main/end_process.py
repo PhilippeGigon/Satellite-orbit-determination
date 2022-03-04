@@ -8,13 +8,13 @@ def creation_IOD_files(args, satellites):
     pscale = pixelscale(pixsize, focal)
     j = 0
     nameIOD='IOD_sat_numero'
-    print('LEN SATS ', len(satellites))
+    IODs = []
     for sat in satellites:
         j = j+1
         for i in range(0,len(sat.rhos)):
             t = time_middle(sat.times[i], texpos)
-            px=sat.middlesx[i]
-            py=sat.middlesy[i]
+            px = sat.middlesx[i]
+            py = sat.middlesy[i]
             [el, az] = positionAZEL(px, py, agvert, aghoriz, bouss, pscale)
             elstring = str(abs(int(el))).ljust(7, ' ')
             azstring = str(int(az)).ljust(7, ' ')
@@ -29,7 +29,9 @@ def creation_IOD_files(args, satellites):
             puncert = "18"
             objnb = "12345 98 123A  "
 
-            conv_altaz_to_IOD(elstring, azstring, sg, angleforme, puncert, t, tuncert, objnb, stnb, ststatut, fnameIOD)
+            iod = conv_altaz_to_IOD(elstring, azstring, sg, angleforme, puncert, t, tuncert, objnb, stnb, ststatut, fnameIOD)
+            IODs.append(iod)
+    return IODs
 
 
 
