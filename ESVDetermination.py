@@ -7,6 +7,8 @@ def find_r():
     two vectors r1 and r2 pointing to the satellite'''
     iodset = Create_IODs()
     # First estimations of n1 and n2:
+
+    t1, t2, t3 =
     n1 = iodset
     n2 =
 

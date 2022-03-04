@@ -1,6 +1,7 @@
 import math
 import os
 import re
+import time
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads
@@ -81,7 +82,8 @@ class IOD:
     def get_El(self):
         return self.El
 
-    def get_miliseconds(self):
+    # This method returns the time in seconds
+    def get_time_seconds(self):
         return self.t_msecond
 
     def printIOD(self):
