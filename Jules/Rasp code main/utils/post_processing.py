@@ -87,6 +87,6 @@ def retrieve_raw_satellites(crop, h_result):
     for i, r in enumerate(rs):
         for j in bs[i]:
             bresen_line = build_line(r, ts[i], j, h,w)
-            new[bresen_line[:,0], bresen_line[:,1]] = palette[i%5] #nouvelle image avec les lignes dessinées dessus
-    return new, (lines, rs,ts,bs) # ici les lines retournées sont les lines apres avoir enlevé les lignes multiples
+            new[bresen_line[:,0], bresen_line[:,1]] = palette[i%5] #nouvelle image avec les lignes dessinees dessus
+    return new, (lines, rs,ts,bs) # ici les lines retournees sont les lines apres avoir enleve les lignes multiples
 # new : nouvelle image avec lignes

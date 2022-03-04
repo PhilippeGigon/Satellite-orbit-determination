@@ -13,8 +13,8 @@ def creation_IOD_files(args, satellites):
         j = j+1
         for i in range(0,len(sat.rhos)):
             t = time_middle(sat.times[i], texpos)
-            px = sat.middlesx[i]
-            py = sat.middlesy[i]
+            px=sat.middlesx[i]
+            py=sat.middlesy[i]
             [el, az] = positionAZEL(px, py, agvert, aghoriz, bouss, pscale)
             elstring = str(abs(int(el))).ljust(7, ' ')
             azstring = str(int(az)).ljust(7, ' ')
@@ -24,6 +24,7 @@ def creation_IOD_files(args, satellites):
             else:
                 sg = "-"
             fnameIOD = './Processed/IOD/'+nameIOD[:-4] + str(j) +'.txt'
+            print(fnameIOD)
             angleforme = "4"
             tuncert = "18"
             puncert = "18"
@@ -32,7 +33,6 @@ def creation_IOD_files(args, satellites):
             iod = conv_altaz_to_IOD(elstring, azstring, sg, angleforme, puncert, t, tuncert, objnb, stnb, ststatut, fnameIOD)
             IODs.append(iod)
     return IODs
-
 
 
 def Run_elfind_on_sats(pathelfind):

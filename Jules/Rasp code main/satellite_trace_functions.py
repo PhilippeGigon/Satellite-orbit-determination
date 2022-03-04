@@ -13,10 +13,13 @@ def get_saved_lines(filename):
     rhos = []
     thetas = []
     lines = np.load(DATAPATH)
+    #print('Lines', lines)
     for i, line in enumerate(lines):
         for rho, theta in line:
             rhos.append(rho)
             thetas.append(theta)
+    #print('RHOS', rhos)
+    #print('THETAs', thetas)
 
     img_names = read_img_name("param_img.txt")
     img_times = read_img_times("param_img.txt")
@@ -26,6 +29,7 @@ def get_saved_lines(filename):
         if img_names[i] == filename:
             for j in range(len(rhos)):
                 time.append(img_times[i])
+    #print('LEN_RHOS = ', len(rhos))
 
 
     #time=time_from_str_to_datetime(time)
@@ -44,28 +48,36 @@ def get_middles(filename):
 
 def data_for_el_from_folder(filenames):
     initial = 0
+    satellites = []
+    #print('LEN_FILENAMES ', len(filenames)) # = 3
     for filename in filenames:
         (rhos, thetas, times) = get_saved_lines(filename)   # gsl to be written
         (middlesx,middlesy)=get_middles(filename) #to be written
-        print('TIMES',times)
+        #print('TIMES',times)
+        #print('LEN_times ', len(times))
         if initial == 0:
             trace = (rhos[0], thetas[0], times[0])
             print('Test param trace: ',rhos[0],thetas[0],times[0])
-            middle=(middlesx[0],middlesy[0])
+            middle = (middlesx[0],middlesy[0])
         if len(rhos) > 0:
             sat1 = Satellite(trace,middle)
-            satellites = [sat1]
+            #satellites = [sat1]
+            satellites.append(sat1)
             ++ initial
         for line_number in range(0,len(rhos)):
                 for satellite in satellites:
                     trace = (rhos[line_number], thetas[line_number], times[line_number])
-                    middle=(middlesx[line_number],middlesy[line_number])
+                    middle = (middlesx[line_number],middlesy[line_number])
                     known = True
                     if (isinstance(rhos[0],int)):
                         known = satellite.same_satellite(trace,middle)
                     if not(known):
                         new_sat = Satellite(trace,middle)
-                        #new_sate
+                        #new_sat
                         satellites.append(new_sat)
                         break   # useless to continue, no trace should correspond to 2 satellites
+    #print('LEN satellites', len(satellites))
     return satellites
+
+
+    
