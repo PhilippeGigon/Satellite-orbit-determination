@@ -17,23 +17,23 @@ def main(args):
         os.makedirs("./Processed/IOD")
     except OSError as error:
         pass
-
-    print('Parameters are read')
+        
+    print('Lecture des parametres')
     #time, agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize = read_param("parametres.txt")
     #create_param_img(time,args.folder)
 
-    print('Image analysis')
+    print('Analyse des images')
     #analyse_pic_from_folder(args) # analyse all images in a Folder + save lines, middles, output imgages
     filenames = read_img_name("param_img.txt") #names of all images in the Folder
-    print('End of image analysis')
+    print('Fin de l\'analyse des images')
 
-    print('Satellite detection in different images')
+    print('Detection des satellites sur differentes images')
     satellites = data_for_el_from_folder(filenames)
 
-    print('Creation of IOD files')
-    IODs = creation_IOD_files(args,satellites)
+    print('Creation des fichiers IOD')
+    IODs = creation_IOD_files(args, satellites)
 
-    print('Creation of a single IOD file')
+    print('Creation of one IOD document')
     one_IOD(IODs)
 
     #print('Lancement de Elfind')

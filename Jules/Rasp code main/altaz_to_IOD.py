@@ -9,13 +9,13 @@ def pixelscale (pixelsize=5.97, focal=35):
     return 206.265*pixelsize/focal
 
 def positionAZEL (pixelx, pixely, anglevert, anglehoriz, boussole, pixscale):
-    # calcule la position du pixel dans le systeme de coordonnées alt-az
+    # calcule la position du pixel dans le systeme de coordonnees alt-az
     # renvoie les angles en arcsec: h=elevation, A=azimuth
-    # anglevert, anglehoriz : radians, angles d'inclinaison de la caméra
+    # anglevert, anglehoriz : radians, angles d'inclinaison de la camera
     # boussole : radians, angle entre le nord et l'orientation de la camera
     # pixscale : en arcsec
-    h = anglevert*206265+(pixely*math.cos(anglehoriz)-pixelx*math.sin(anglehoriz))*pixscale
-    A = boussole*206265+(pixelx*math.cos(anglehoriz)+pixely*math.sin(anglehoriz))*pixscale
+    h=anglevert*206265+(pixely*math.cos(anglehoriz)-pixelx*math.sin(anglehoriz))*pixscale
+    A=boussole*206265+(pixelx*math.cos(anglehoriz)+pixely*math.sin(anglehoriz))*pixscale
 
     return(h,A)
 
@@ -44,17 +44,19 @@ def one_IOD(IODs):
     EndFile.close()
 
 
+
+
 '''
 ################### CODE TEST #############################################
 
-################### Données caméra ########################################
+################### Donnees camera ########################################
 
 focal = 35 #mm , notee sur objectif
-pixsize = 5.97 #micron calculee a partir de la taille du capteur (35.8mm x 23.9mm) divisé par nb de pixel (6000 x 4000)
+pixsize = 5.97 #micron calculee a partir de la taille du capteur (35.8mm x 23.9mm) divise par nb de pixel (6000 x 4000)
 
 pscale=pixelscale(pixsize,focal)
 
-################### Données position ######################################
+################### Donnees position ######################################
 
 px=583 # pixels du point gps
 py=1022
@@ -75,7 +77,7 @@ azstring=str(int(az)).ljust(7, ' ')
 # print(azstring)
 
 ################### Conversion IOD ########################################
-# données arbitraires cf http://www.satobs.org/position/IODformat.html pour les correspondances
+# donnees arbitraires cf http://www.satobs.org/position/IODformat.html pour les correspondances
 
 fname="testIOD.txt"
 

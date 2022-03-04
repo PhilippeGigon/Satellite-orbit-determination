@@ -6,7 +6,7 @@ import math
 def norm(trace_a, trace_b):
     (rho, theta, time) = trace_a
     (rhobis, thetabis, timebis) = trace_b
-    #   provide rho_char, hetta_char and time_char
+    #   provide rho_char, theta_char and time_char
     rho_char = 1
     theta_char = 1e-2
     time=time_from_str_to_datetime(time)

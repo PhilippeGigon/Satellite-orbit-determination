@@ -18,7 +18,7 @@ def process_block(params):  # partie technique importante du traitement de la ma
     else:
         #print('Start Hough Processing')
         start = time.time()
-    sortie = crop # car on ne fait pas beaucoup des étapes intermédiaires nécessaires sur les .fit
+    sortie = crop # car on ne fait pas beaucoup des etapes intermediaires necessaires sur les .fit
 
     h,w = sortie.shape
     detector = cannyEdgeDetector([sortie], sigma=1.4, kernel_size=5, lowthreshold=0.09, highthreshold=0.17, weak_pixel=100)
