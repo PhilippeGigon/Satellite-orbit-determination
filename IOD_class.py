@@ -1,6 +1,6 @@
 import math
 import os
-
+import re
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads
@@ -11,6 +11,13 @@ import os
 #############################################################
 
 
+def is_IOD(IOD_candidate):
+    ''''Tests if a given string is an IOD with the right format or not'''
+    match = re.match(
+        "[0-9]{5}\s[0-9]{2}\s[0-9]{3}[A-Z]{3}\s[0-9]{4}\s[A-Z]\s[0-9]{17}\s[0-9]{2}\s[0-9]{2}\s[0-9]{7}[+-][0-9]{6}\s[0-9]{2}\s[A-Z]\+[A-Z a-z]{3}\s[A-Z a-z]{2}\s[A-Z a-z]{6}", IOD_candidate)
+    return match
+
+
 def Create_IODs():
     ''' Opens the txt file and creates three instances of
      IOD classes containing the IODs'''
@@ -18,14 +25,26 @@ def Create_IODs():
     script_dir = os.path.dirname(__file__)  # Location of python script
     rel_path = "test.txt"  # Name of .txt
     abs_file_path = os.path.join(script_dir, rel_path)
-
     Data = open(abs_file_path, "r")
-    IODs = Data.readlines()
-    IODset = []
-    for i in IODs:
-        IODset.append(IOD(i))
-    Data.close()
-    return IODset
+    # Checks that we have 3 IOD's in the file
+    line_count = 0
+    for line in Data:
+        if line != "\n":
+            line_count += 1
+    if line_count != 3:
+        Data.close()
+        raise ValueError("There must be three IOD's in ", rel_path)
+    if line_count == 3:
+        Data.seek(0)
+        IODs = Data.readlines()
+        IODset = []
+        for i in IODs:
+            if is_IOD(i):
+                IODset.append(IOD(i))
+        Data.close()
+        if len(IODset) != 3:
+            raise ValueError("IODs have wrong format")
+        return IODset
 
 #############################################################
 
@@ -70,10 +89,6 @@ class IOD:
         print("HH: ", self.t_hour, "MM: ",
               self.t_minute, "SSSS: ", self.t_msecond)
 
+
 #############################################################
-
-
-# Debug
-iodset = Create_IODs()
-for i in iodset:
-    i.printIOD()
+Create_IODs()
