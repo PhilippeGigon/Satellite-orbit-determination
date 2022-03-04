@@ -82,7 +82,7 @@ class IOD:
     def get_El(self):
         return self.El
 
-    # This method returns the time in seconds
+    # This method returns the time in seconds since 01.01.1970 (UNIX)
     def get_time_seconds(self):
         return self.t_msecond
 
