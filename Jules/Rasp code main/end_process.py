@@ -6,11 +6,11 @@ import os
 def creation_IOD_files(args, satellites):
     time, agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize = read_param("parametres.txt")
     pscale = pixelscale(pixsize, focal)
-    i=0
+    j = 0
     nameIOD='IOD_sat_numero'
     print('LEN SATS ', len(satellites))
     for sat in satellites:
-        i=i+1
+        j = j+1
         for i in range(0,len(sat.rhos)):
             t = time_middle(sat.times[i], texpos)
             px=sat.middlesx[i]
@@ -23,7 +23,7 @@ def creation_IOD_files(args, satellites):
                 sg = "+"
             else:
                 sg = "-"
-            fnameIOD = './Processed/IOD/'+nameIOD[:-4] + str(i) +'.txt'
+            fnameIOD = './Processed/IOD/'+nameIOD[:-4] + str(j) +'.txt'
             angleforme = "4"
             tuncert = "18"
             puncert = "18"

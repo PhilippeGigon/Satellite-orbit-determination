@@ -9,9 +9,9 @@ import os
 def get_saved_lines(filename):
     #DATAPATH='.\Processed\Lines\lines' + filename[:-4] + '_outputfinal.npy'
     #DATAPATH='Processed\Lines\lines' + filename[:-4] + '_outputfinal.npy'
-    DATAPATH='Processed/Lines/lines' + filename[:-4] + '_outputfinal.npy'
-    rhos=[]
-    thetas=[]
+    DATAPATH = 'Processed/Lines/lines' + filename[:-4] + '_outputfinal.npy'
+    rhos = []
+    thetas = []
     lines = np.load(DATAPATH)
     for i, line in enumerate(lines):
         for rho, theta in line:
@@ -21,7 +21,7 @@ def get_saved_lines(filename):
     img_names = read_img_name("param_img.txt")
     img_times = read_img_times("param_img.txt")
 
-    time=[]
+    time = []
     for i in range(0,len(img_names)):
         if img_names[i] == filename:
             for j in range(len(rhos)):
@@ -53,8 +53,8 @@ def data_for_el_from_folder(filenames):
             print('Test param trace: ',rhos[0],thetas[0],times[0])
             middle=(middlesx[0],middlesy[0])
         if len(rhos) > 0:
-            sate1 = Satellite(trace,middle)
-            satellites = [sate1]
+            sat1 = Satellite(trace,middle)
+            satellites = [sat1]
             ++ initial
         for line_number in range(0,len(rhos)):
                 for satellite in satellites:
@@ -64,12 +64,8 @@ def data_for_el_from_folder(filenames):
                     if (isinstance(rhos[0],int)):
                         known = satellite.same_satellite(trace,middle)
                     if not(known):
-                        new_sate = Satellite(trace,middle)
+                        new_sat = Satellite(trace,middle)
                         #new_sate
-                        satellites.append(new_sate)
+                        satellites.append(new_sat)
                         break   # useless to continue, no trace should correspond to 2 satellites
     return satellites
-
-
-
-
