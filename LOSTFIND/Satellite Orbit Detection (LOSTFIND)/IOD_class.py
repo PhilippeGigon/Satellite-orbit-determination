@@ -1,7 +1,6 @@
 import math
 import os
 import re
-import time
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads
@@ -24,7 +23,7 @@ def Create_IODs():
      IOD classes containing the IODs'''
 
     script_dir = os.path.dirname(__file__)  # Location of python script
-    rel_path = "test.txt"  # Name of .txt
+    rel_path = "IOD.txt"  # Name of .txt
     abs_file_path = os.path.join(script_dir, rel_path)
     Data = open(abs_file_path, "r")
     # Checks that we have 3 IOD's in the file

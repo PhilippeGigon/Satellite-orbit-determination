@@ -1,0 +1,3 @@
+*Put the IODs in the right format needed by IOD_class.py
+*Method in IOD_class.py get_time_seconds that gives the  time in second
+*Function get_R in ESVDetermination.py should transform  GPS coordinates to useful coordinate system
