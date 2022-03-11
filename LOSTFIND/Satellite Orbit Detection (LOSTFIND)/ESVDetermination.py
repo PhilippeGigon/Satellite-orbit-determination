@@ -53,14 +53,14 @@ def find_r(iodset):
     two vectors r1 and r2 pointing to the satellite'''
 
     # Creates the vector pointing to the station
-    R1 = get_R(iodset[0].get_time_unix())
-    R2 = get_R(iodset[1].get_time_unix())
-    R3 = get_R(iodset[2].get_time_unix())
+    R1 = get_R(iodset[0].get_time())
+    R2 = get_R(iodset[1].get_time())
+    R3 = get_R(iodset[2].get_time())
 
     # First estimations of n1 and n2:
-    t1 = iodset[0].get_time_unix()
-    t2 = iodset[1].get_time_unix()
-    t3 = iodset[2].get_time_unix()
+    t1 = iodset[0].get_time()
+    t2 = iodset[1].get_time()
+    t3 = iodset[2].get_time()
 
     # Unit vectors pointing to satellite
     e1 = iodset[0].get_e()
@@ -98,8 +98,11 @@ def find_r(iodset):
     epsilon = 1
     # Does the loop as long as the n1,n3 change significat
     while True:
-        rho1, rho2, rho3 = find_rho(
-            n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
+       # rho1, rho2, rho3 = find_rho(
+        #    n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
+        rho1 = 0
+        rho2 = 0
+        rho3 = 0
         # Computes the vector from earth center to satellite
         r1 = R1+rho1*e1
         r2 = R2+rho2*e2
@@ -117,16 +120,9 @@ def find_r(iodset):
 
         n1 = r2crossr3/r1crossr3
         n3 = r1crossr2/r1crossr3
-        if (n1-n1old) < epsilon and (n2-n2old) < epsilon:
+        if (n1-n1old) < epsilon and (n3-n3old) < epsilon:
             break
 
     r1 = R1+rho1*e1
     r3 = R3+rho3*e3
     return r1, r3
-
-
-IODset = array(Create_IODs())
-
-for i in IODset:
-    i.printIOD()
-#r1, r2 = find_r(IODset)
