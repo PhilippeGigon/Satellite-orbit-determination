@@ -96,6 +96,9 @@ class IOD:
     def get_time_unix(self):
         return self.unix_epochtime
 
+    def get_stringdate():
+        return self.stringdate()
+
     def printIOD(self):
         print("Az: ", self.Az, "El: ", self.El)
         print("HH: ", self.t_hour, "MM: ",
