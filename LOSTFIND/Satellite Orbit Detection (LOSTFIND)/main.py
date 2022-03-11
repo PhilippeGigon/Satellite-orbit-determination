@@ -12,6 +12,7 @@ def main():
     t2 = IODset[2].get_time()
     Position = [r1, r2, t1, t2]
     print(sqrt(dot(r2, r2))/1000.0-6371.0)
+    print(t2-t1)
 
 
 if __name__ == "__main__":
