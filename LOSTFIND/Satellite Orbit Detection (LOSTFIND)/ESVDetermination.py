@@ -20,7 +20,7 @@ def get_R(epoch_time):
     ################################################################
     Re = 6378137  # Equatorial earth radius in meter
     f = 0.003353  # oblateness
-    lat = int(Station_Coordinates[0])  # read latitudes GPS coordinates
+    lat = int(Station_Coordinates[0])*(pi/180)  # read latitudes GPS coordinates
     H = int(Station_Coordinates[2])  # read altitudes from GPS or google map
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
