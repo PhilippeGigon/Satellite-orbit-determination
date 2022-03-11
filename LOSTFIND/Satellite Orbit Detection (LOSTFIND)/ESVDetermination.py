@@ -5,7 +5,7 @@ import ephem
 import datetime
 import math
 import numpy as np
-import constants
+
 
 def get_R(epoch_time):
     '''This function reads the telescopes GPS position
@@ -18,17 +18,19 @@ def get_R(epoch_time):
     ################################################################
     ########################Rick part, may be wrong###################################
     ################################################################
-    # read latitudes GPS coordinates 
-    lat = float(Station_Coordinates[0])*constants.degtorad
+    Re = 6378137  # Equatorial earth radius in meter
+    f = 0.003353  # oblateness
+    # read latitudes GPS coordinates
+    lat = float(Station_Coordinates[0])*(pi/180)
     H = float(Station_Coordinates[1])  # read altitudes from GPS or google map
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
     station.date = date_time
     time = station.sidereal_time()
-    R = ((constants.Re/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H)*math.cos(lat)*math.cos(time),
-         (constants.Re/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H) *
+    R = ((Re/(math.sqrt(1-(2*f-f*f)*math.sin(lat)*math.sin(lat)))+H)*math.cos(lat)*math.cos(time),
+         (Re/(math.sqrt(1-(2*f-f*f)*math.sin(lat)*math.sin(lat)))+H) *
          math.cos(lat)*math.sin(time),
-         (constants.Re*(1-constants.f)*(1-constants.f)/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H)*math.sin(lat))
+         (Re*(1-f)*(1-f)/(math.sqrt(1-(2*f-f*f)*math.sin(lat)*math.sin(lat)))+H)*math.sin(lat))
     ################################################################
     #############################################################
     ###############################################################
@@ -69,16 +71,16 @@ def find_r(iodset):
     d1 = cross(e2, e3)
     d2 = cross(e3, e1)
     d3 = cross(e1, e2)
-    D11 = dot(e1, d1)
-    D12 = dot(e1, d1)
-    D13 = dot(e1, d1)
-    D21 = dot(e1, d1)
-    D22 = dot(e1, d1)
-    D23 = dot(e1, d1)
-    D31 = dot(e1, d1)
-    D32 = dot(e1, d1)
-    D33 = dot(e1, d1)
-    D = dot(e1, d1)
+    D11 = dot(e1, R1)
+    D12 = dot(e1, R2)
+    D13 = dot(e1, R3)
+    D21 = dot(e2, R1)
+    D22 = dot(e2, R2)
+    D23 = dot(e2, R3)
+    D31 = dot(e3, R1)
+    D32 = dot(e3, R2)
+    D33 = dot(e3, R3)
+    D = dot(e3, d3)
 
     # Intial guess for n1, n3
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
@@ -94,7 +96,7 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 0.001
+    epsilon = 0.0000000001
     s = 0
     # Does the loop as long as the n1,n3 change significat
     while True:
@@ -122,6 +124,7 @@ def find_r(iodset):
 
     r1 = R1+rho1*e1
     r3 = R3+rho3*e3
+    print(s)
     return r1, r3
 
 
