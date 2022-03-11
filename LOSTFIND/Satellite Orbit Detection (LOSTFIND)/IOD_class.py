@@ -61,9 +61,6 @@ class IOD:
         self.Station_ID = b
         self.Station_stat = c
 
-        ###############################################
-        # To do compute unix_epochtime
-        ###############################################
         # Computes UNIX epoch time
         self.Date = f[0:8]
         # Time
