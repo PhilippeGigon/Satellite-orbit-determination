@@ -1,6 +1,7 @@
 import math
 import os
 import re
+from datetime import datetime
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads
@@ -65,11 +66,16 @@ class IOD:
         # Computes UNIX epoch time
         self.Date = f[0:8]
         # Time
+        t_year = int(f[0:4])
+        t_month = int(f[4:6])
+        t_day = int(f[6:8])
         t_hour = int(f[8:10])
         t_minute = int(f[10:12])
-        t_msecond = int(f[12:])  # in miliseconds
+        t_second = int(f[12:14])
+        t_microsecond = int(f[14:17])*1000 #in micro-second
+        # in miliseconds
         # time in seconds since 01.01.1970 (UNIX)
-        self.unix_epochtime = 0
+        self.unix_epochtime = datetime.datetime(t_year, t_month, t_day, t_hour,t_minute,t_second,t_microsecond).timestamp() 
         ###############################################
         ###############################################
 
