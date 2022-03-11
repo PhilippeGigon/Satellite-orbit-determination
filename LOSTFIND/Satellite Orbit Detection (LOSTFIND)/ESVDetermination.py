@@ -20,7 +20,8 @@ def get_R(epoch_time):
     ################################################################
     Re = 6378137  # Equatorial earth radius in meter
     f = 0.003353  # oblateness
-    lat = int(Station_Coordinates[0])*(pi/180)  # read latitudes GPS coordinates
+    # read latitudes GPS coordinates
+    lat = int(Station_Coordinates[0])*(pi/180)
     H = int(Station_Coordinates[2])  # read altitudes from GPS or google map
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
@@ -61,16 +62,10 @@ def find_r(iodset):
     t2 = iodset[1].get_time_unix()
     t3 = iodset[2].get_time_unix()
 
-    #t1 = 0
-    #t3 = 1
-    #t2 = 3
-    #R1 = array([1, 2, 3])
-    #R2 = array([1, 4, 3])
-    #R3 = array([1, 2, 5])
     # Unit vectors pointing to satellite
-    #e1 = iodset[0].get_e()
-    #e2 = iodset[1].get_e()
-    #e3 = iodset[2].get_e()
+    e1 = iodset[0].get_e()
+    e2 = iodset[1].get_e()
+    e3 = iodset[2].get_e()
 
     # Usefull definitions
     d1 = cross(e2, e3)

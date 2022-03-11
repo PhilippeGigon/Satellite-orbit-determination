@@ -79,15 +79,15 @@ class IOD:
         ###############################################
 
         # Measured angles
-        # Declination and right ascention
+        # Right ascention declination
         if "-" in i:
             X, Y = i.split("-")
-            self.Dec = int(X)
-            self.Ra = -int(Y)
+            self.Ra = int(X)
+            self.Dec = -int(Y)
         if "+" in i:
             X, Y = i.split("+")
-            self.Dec = int(X)
-            self.Ra = int(Y)
+            self.Ra = int(X)
+            self.Dec = int(Y)
 
     def get_time_unix(self):
         return self.unix_epochtime
