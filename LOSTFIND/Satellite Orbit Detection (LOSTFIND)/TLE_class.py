@@ -76,6 +76,7 @@ class TLE:
         eta = eta2
         return eta
 
+    # unit vector ea x e0
     def unit_vect_W(self):
         ea = (1/np.linalg.norm(self.ra))*self.ra
         r0 = self.rb - (np.dot(self.rb,ea))*ea
