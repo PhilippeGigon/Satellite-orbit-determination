@@ -82,26 +82,39 @@ class IOD:
         # Right ascention declination
         if "-" in i:
             X, Y = i.split("-")
-            self.Ra = int(X)
-            self.Dec = -int(Y)
-        if "+" in i:
-            X, Y = i.split("+")
-            self.Ra = int(X)
-            self.Dec = int(Y)
+            RaH = int(X[0:2])
+            RaM = int(X[2:4])
+            RaS = int(X[4:6])
+            Ras = int(X[6:7])
+            self.RaRad =  # Radians
+            DecD = int(Y[0:2])
+            DecM = int(Y[2:4])
+            DecS = int(Y[4:6])
+            self.DecRad = -  # Radians
 
-    def get_time_unix(self):
-        return self.unix_epochtime
+        if "+" in i:
+            X, Y = i.split("-")
+            RaH = int(X[0:2])
+            RaM = int(X[2:4])
+            RaS = int(X[4:6])
+            Ras = int(X[6:7])
+            self.RaRad =  # Radians
+            DecD = int(Y[0:2])
+            DecM = int(Y[2:4])
+            DecS = int(Y[4:6])
+            self.DecRad = +  # Radians
 
         ###############################################
         # To do compute basis vector
         ###############################################
+
     def get_e(self):
         '''returns the unit vector pointing from telescope towards satellite'''
         return np.array([0, 0, 0])
 
     def printIOD(self):
-        print("Dec: ", self.Dec, "Ra: ", self.Ra)
-        print("TIME SINCE UNIX:", get_time_unix())
+        print("Ra: ", self.Ra, "Dec: ", self.Dec)
+        print("TIME SINCE UNIX:", self.unix_epochtime)
 
 
 #############################################################

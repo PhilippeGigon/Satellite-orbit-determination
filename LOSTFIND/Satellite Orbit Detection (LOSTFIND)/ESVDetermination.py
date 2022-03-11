@@ -42,9 +42,9 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
     '''This method takes the vector products of the
     unit vectors and n1,n3 and computes the distances 
     rho1,rho2,rho3 from the surface to the satellite'''
-    RHO1 = -1.0/(n1*D)*(n1*D11-D12+n3*D13)
-    RHO2 = 1.0/D*(n1*D21-D22+n3*D23)
-    RHO3 = -1.0/(n3*D)*(n1*D31-D32+n3*D33)
+    RHO1 = -1.0/(N1*D)*(N1*D11-D12+N3*D13)
+    RHO2 = 1.0/D*(N1*D21-D22+N3*D23)
+    RHO3 = -1.0/(N3*D)*(N1*D31-D32+N3*D33)
     return RHO1, RHO2, RHO3
 
 
@@ -95,7 +95,7 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 0.0001
+    epsilon = 1
     # Does the loop as long as the n1,n3 change significat
     while True:
         rho1, rho2, rho3 = find_rho(
@@ -110,6 +110,11 @@ def find_r(iodset):
         r1crossr2 = np.linalg.norm(cross(r1, r2), ord=2)
         n1old = n1
         n3old = n3
+
+        if r1crossr3 == 0:
+            raise ValueError(
+                "Two vectors are parallel!")
+
         n1 = r2crossr3/r1crossr3
         n3 = r1crossr2/r1crossr3
         if (n1-n1old) < epsilon and (n2-n2old) < epsilon:
@@ -121,4 +126,7 @@ def find_r(iodset):
 
 
 IODset = array(Create_IODs())
-r1, r2 = find_r(IODset)
+
+for i in IODset:
+    i.printIOD()
+#r1, r2 = find_r(IODset)
