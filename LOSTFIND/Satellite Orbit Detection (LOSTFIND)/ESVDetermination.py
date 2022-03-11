@@ -85,9 +85,7 @@ def find_r(iodset):
     # Intial guess for n1, n3
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
-        print((t3-t2))
         n3 = (t2-t1)/(t3-t1)
-        print((t2-t1))
         n1old = 100
         n3old = 100
 
@@ -98,7 +96,7 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 0.000000000000000000011
+    epsilon = 0.001
     s = 0
     # Does the loop as long as the n1,n3 change significat
     while True:
@@ -127,3 +125,7 @@ def find_r(iodset):
     r1 = R1+rho1*e1
     r3 = R3+rho3*e3
     return r1, r3
+
+
+IODset = array(Create_IODs())
+r1, r2 = find_r(IODset)
