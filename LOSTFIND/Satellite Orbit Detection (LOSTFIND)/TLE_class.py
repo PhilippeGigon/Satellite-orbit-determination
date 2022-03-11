@@ -10,13 +10,15 @@ class TLE:
         self.tb = input[3]
         self.prec = precision
         self.W = self.unit_vect_W()
+
+        # TLE components
         self.e = self.eccentricity()
-        self.n = 0 ##ToDo
+        self.n = self.mean_motion()
         self.i = self.inclination()
         self.Omega = self.right_ascension()
         self.omega = self.arg_perigee()
         self.M = self.mean_anomaly()
-        self.t = self.tb - self.ta
+        self.t = (self.ta + self.tb)/2
 
     def __getitem__(self, index):
         return self.W[index]
@@ -124,6 +126,15 @@ class TLE:
         nua = np.arctan((pa*np.cos(dnu) - pb))
         e = pa/np.cos(nua)
         return e
+
+    def mean_motion(self):
+        delta = self.calc_delta()
+        eta = self.calc_eta()
+        tau = np.sqrt(constants.G * constants.MT) * (self.tb - self.ta)
+        p = (2*delta*eta/tau)**2
+        a = p/(1-self.e**2)
+        n = np.sqrt(constants.G*constants.MT/(a**3))
+        return n
 
     def mean_anomaly(self):
         e = self.eccentricity()
