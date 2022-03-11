@@ -2,7 +2,7 @@ import math
 import os
 import re
 import numpy as np
-from datetime import datetime
+import datetime
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads

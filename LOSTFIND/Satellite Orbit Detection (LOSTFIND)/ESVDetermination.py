@@ -80,6 +80,7 @@ def find_r(iodset):
     D31 = dot(e1, d1)
     D32 = dot(e1, d1)
     D33 = dot(e1, d1)
+    D = dot(e1, d1)
 
     # Intial guess for n1, n3
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
