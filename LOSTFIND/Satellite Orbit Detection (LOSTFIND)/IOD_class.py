@@ -112,6 +112,9 @@ class IOD:
         '''returns the unit vector pointing from telescope towards satellite'''
         return np.array([0, 0, 0])
 
+    def get_time(self):
+        return self.unix_epochtime
+
     def printIOD(self):
         print("Ra: ", self.Ra, "Dec: ", self.Dec)
         print("TIME SINCE UNIX:", self.unix_epochtime)
