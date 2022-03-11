@@ -58,12 +58,24 @@ class IOD:
         self.Object_ID = a
         self.Station_ID = b
         self.Station_stat = c
-        # Date year month day
+
+        # Date total
+        self.stringdate = f
+
+        ###############################################
+        # To do compute unix_epochtime
+        ###############################################
+        # Computes UNIX epoch time
         self.Date = f[0:8]
         # Time
-        self.t_hour = int(f[8:10])
-        self.t_minute = int(f[10:12])
-        self.t_msecond = int(f[12:])  # in miliseconds
+        t_hour = int(f[8:10])
+        t_minute = int(f[10:12])
+        t_msecond = int(f[12:])  # in miliseconds
+        # time in seconds since 01.01.1970 (UNIX)
+        self.unix_epochtime =
+        ###############################################
+        ###############################################
+
         # Measured angles
         # El either positive or negative
         if "-" in i:
@@ -81,12 +93,8 @@ class IOD:
     def get_El(self):
         return self.El
 
-    # This method returns the time in seconds since 01.01.1970 (UNIX)
-    ################################################################
-    ########################TO DO###################################
-    ################################################################
-    def get_time_seconds(self):
-        return self.t_msecond
+    def get_time_unix(self):
+        return self.unix_epochtime
 
     def printIOD(self):
         print("Az: ", self.Az, "El: ", self.El)
