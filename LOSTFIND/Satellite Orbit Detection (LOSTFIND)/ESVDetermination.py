@@ -37,12 +37,13 @@ def get_R(date_string):
     return R
 
 
-def find_rho(N1, N3, E1, E2, E3):
-    '''This method takes the unit vectors and n1,n3 and computes
-    the distances rho1,rho2,rho3 from the surface to the satellite'''
-    RHO1 = 0
-    RHO2 = 0
-    RHO3 = 0
+def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
+    '''This method takes the vector products of the
+    unit vectors and n1,n3 and computes the distances 
+    rho1,rho2,rho3 from the surface to the satellite'''
+    RHO1 = -1.0/(n1*D)*(n1*D11-D12+n3*D13)
+    RHO2 = 1.0/D*(n1*D21-D22+n3*D23)
+    RHO3 = -1.0/(n3*D)*(n1*D31-D32+n3*D33)
     return RHO1, RHO2, RHO3
 
 
@@ -79,11 +80,22 @@ def find_r(iodset):
     d1 = cross(e2, e3)
     d2 = cross(e3, e1)
     d3 = cross(e1, e2)
-    D = dot(e1, d1)
+    D11 = dot(e1, d1)
+    D12 = dot(e1, d1)
+    D13 = dot(e1, d1)
+    D21 = dot(e1, d1)
+    D22 = dot(e1, d1)
+    D23 = dot(e1, d1)
+    D31 = dot(e1, d1)
+    D32 = dot(e1, d1)
+    D33 = dot(e1, d1)
 
+    # Intial guess for n1, n3
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
         n3 = (t2-t1)/(t3-t1)
+        n1old = 0
+        n3old = 0
     else:
         raise ValueError(
             "The IOD' must coorespond to different observation times")
@@ -91,19 +103,28 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    rho1, rho2, rho3 = find_rho(
-        n1, n3, e1, e2, e3)
-    # Computes the vector from earth center to satellite
-    r1 = R1+rho1*e1
-    r2 = R2+rho2*e2
-    r3 = R3+rho3*e3
-    # Next guess for n1, n3
-    r1crossr3 = np.linalg.norm(cross(r1, r3), ord=2)
-    r2crossr3 = np.linalg.norm(cross(r2, r3), ord=2)
-    r1crossr2 = np.linalg.norm(cross(r1, r2), ord=2)
-    n1 = r2crossr3/r1crossr3
-    n3 = r1crossr2/r1crossr3
 
+    # Does the loop as long as the n1,n3 change significat
+    while True:
+        rho1, rho2, rho3 = find_rho(
+            n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
+        # Computes the vector from earth center to satellite
+        r1 = R1+rho1*e1
+        r2 = R2+rho2*e2
+        r3 = R3+rho3*e3
+        # Next guess for n1, n3
+        r1crossr3 = np.linalg.norm(cross(r1, r3), ord=2)
+        r2crossr3 = np.linalg.norm(cross(r2, r3), ord=2)
+        r1crossr2 = np.linalg.norm(cross(r1, r2), ord=2)
+        n1old = n1
+        n3old = n3
+        n1 = r2crossr3/r1crossr3
+        n3 = r1crossr2/r1crossr3
+        if (n1-n1old) < epsilon and (n2-n2old) < epsilon:
+            break
+
+    r1 = R1+rho1*e1
+    r3 = R3+rho3*e3
     return r1, r3
 
 
