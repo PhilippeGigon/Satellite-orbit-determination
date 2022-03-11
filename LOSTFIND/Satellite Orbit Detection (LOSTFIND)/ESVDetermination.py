@@ -21,8 +21,8 @@ def get_R(epoch_time):
     Re = 6378137  # Equatorial earth radius in meter
     f = 0.003353  # oblateness
     # read latitudes GPS coordinates
-    lat = int(Station_Coordinates[0])*(pi/180)
-    H = int(Station_Coordinates[2])  # read altitudes from GPS or google map
+    lat = float(Station_Coordinates[0])*(pi/180)
+    H = float(Station_Coordinates[1])  # read altitudes from GPS or google map
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
     station.date = date_time
@@ -40,7 +40,7 @@ def get_R(epoch_time):
 
 def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
     '''This method takes the vector products of the
-    unit vectors and n1,n3 and computes the distances 
+    unit vectors and n1,n3 and computes the distances
     rho1,rho2,rho3 from the surface to the satellite'''
     RHO1 = -1.0/(N1*D)*(N1*D11-D12+N3*D13)
     RHO2 = 1.0/D*(N1*D21-D22+N3*D23)
@@ -49,7 +49,7 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
 
 
 def find_r(iodset):
-    '''This code takes an array of IOD' and then computes 
+    '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite'''
 
     # Creates the vector pointing to the station
@@ -86,8 +86,9 @@ def find_r(iodset):
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
         n3 = (t2-t1)/(t3-t1)
-        n1old = 0
-        n3old = 0
+        n1old = 100
+        n3old = 100
+
     else:
         raise ValueError(
             "The IOD' must coorespond to different observation times")
@@ -95,14 +96,13 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 1
+    epsilon = 0.00000000000000000000000000000000000001
+    s = 0
     # Does the loop as long as the n1,n3 change significat
     while True:
-       # rho1, rho2, rho3 = find_rho(
-        #    n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
-        rho1 = 0
-        rho2 = 0
-        rho3 = 0
+        s += 1
+        rho1, rho2, rho3 = find_rho(
+            n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
         # Computes the vector from earth center to satellite
         r1 = R1+rho1*e1
         r2 = R2+rho2*e2
@@ -111,18 +111,22 @@ def find_r(iodset):
         r1crossr3 = np.linalg.norm(cross(r1, r3), ord=2)
         r2crossr3 = np.linalg.norm(cross(r2, r3), ord=2)
         r1crossr2 = np.linalg.norm(cross(r1, r2), ord=2)
-        n1old = n1
-        n3old = n3
-
         if r1crossr3 == 0:
             raise ValueError(
                 "Two vectors are parallel!")
-
-        n1 = r2crossr3/r1crossr3
-        n3 = r1crossr2/r1crossr3
-        if (n1-n1old) < epsilon and (n3-n3old) < epsilon:
+        n1old = n1
+        n3old = n3
+        n1 = float(r2crossr3/r1crossr3)
+        n3 = float(r1crossr2/r1crossr3)
+        if abs(n1-n1old) < epsilon and abs(n3-n3old) < epsilon:
+            print("Number of iterations: ", s)
             break
 
     r1 = R1+rho1*e1
     r3 = R3+rho3*e3
     return r1, r3
+
+
+IODset = array(Create_IODs())
+# Computes two vectors pointing to the satellite
+r1, r2 = find_r(IODset)

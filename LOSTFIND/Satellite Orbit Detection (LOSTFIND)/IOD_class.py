@@ -94,7 +94,7 @@ class IOD:
             self.DecRad = -(DecD + DecM/60+DecS/3600)*(math.pi/180)  # Radians
 
         if "+" in i:
-            X, Y = i.split("-")
+            X, Y = i.split("+")
             RaH = int(X[0:2])
             RaM = int(X[2:4])
             RaS = int(X[4:6])
@@ -114,8 +114,8 @@ class IOD:
         '''returns the unit vector pointing from telescope towards satellite'''
         ra = self.RaRad
         dec = self.DecRad
-        e = (math.cos(dec)*math.cos(ra), math.cos(dec)
-             * math.sin(ra), math.sin(dec))
+        e = np.array([math.cos(dec)*math.cos(ra), math.cos(dec)
+                      * math.sin(ra), math.sin(dec)])
         return e
 
     def get_time(self):
