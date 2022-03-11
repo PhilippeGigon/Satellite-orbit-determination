@@ -1,6 +1,8 @@
 import math
 import os
 import re
+import numpy as np
+
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads
@@ -92,6 +94,13 @@ class IOD:
 
     def get_time_unix(self):
         return self.unix_epochtime
+
+        ###############################################
+        # To do compute basis vector
+        ###############################################
+    def get_e(self):
+        '''returns the unit vector pointing from telescope towards satellite'''
+        return np.array([0, 0, 0])
 
     def printIOD(self):
         print("Az: ", self.Az, "El: ", self.El)

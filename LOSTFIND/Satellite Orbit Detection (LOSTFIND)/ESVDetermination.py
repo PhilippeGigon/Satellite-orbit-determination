@@ -3,6 +3,7 @@ from numpy import *
 import os
 import ephem
 import math
+import numpy as np
 
 
 def get_R(date_string):
@@ -36,27 +37,75 @@ def get_R(date_string):
     return R
 
 
+def find_rho(N1, N3, E1, E2, E3):
+    '''This method takes the unit vectors and n1,n3 and computes
+    the distances rho1,rho2,rho3 from the surface to the satellite'''
+    RHO1 = 0
+    RHO2 = 0
+    RHO3 = 0
+    return RHO1, RHO2, RHO3
+
+
 def find_r(iodset):
     '''This code takes an array of IOD' and then computes 
     two vectors r1 and r2 pointing to the satellite'''
 
     # Creates the vector pointing to the station
-    for k in range(0, 3):
-        R[k] = get_R(iodset[k].get_stringdate())
+    #R1 = get_R(iodset[0].get_time_unix())
+    #R2 = get_R(iodset[1].get_time_unix())
+    #R3 = get_R(iodset[2].get_time_unix())
 
     # First estimations of n1 and n2:
-    t1 = iodset[0].get_time_unix()
-    t2 = iodset[1].get_time_unix()
-    t3 = iodset[2].get_time_unix()
+    #t1 = iodset[0].get_time_unix()
+    #t2 = iodset[1].get_time_unix()
+    #t3 = iodset[2].get_time_unix()
 
-    print(t1, t2, t3)
+    ############################################################################
+    #########HRemove before flight!!!!!!!!!##########
+    ############################################################################
+
+    t1 = 0
+    t3 = 1
+    t2 = 3
+    R1 = array([1, 2, 3])
+    R2 = array([1, 4, 3])
+    R3 = array([1, 2, 5])
+    # Unit vectors pointing to satellite
+    e1 = iodset[0].get_e()
+    e2 = iodset[1].get_e()
+    e3 = iodset[2].get_e()
+
+    # Usefull definitions
+    d1 = cross(e2, e3)
+    d2 = cross(e3, e1)
+    d3 = cross(e1, e2)
+    D = dot(e1, d1)
+
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
-        n2 = (t2-t1)/(t3-t1)
+        n3 = (t2-t1)/(t3-t1)
     else:
         raise ValueError(
             "The IOD' must coorespond to different observation times")
 
-    r1 = array([0, 0, 0])
-    r2 = array([0, 0, 0])
-    return r1, r2
+    ############################################################################
+    #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
+    ############################################################################
+    rho1, rho2, rho3 = find_rho(
+        n1, n3, e1, e2, e3)
+    # Computes the vector from earth center to satellite
+    r1 = R1+rho1*e1
+    r2 = R2+rho2*e2
+    r3 = R3+rho3*e3
+    # Next guess for n1, n3
+    r1crossr3 = np.linalg.norm(cross(r1, r3), ord=2)
+    r2crossr3 = np.linalg.norm(cross(r2, r3), ord=2)
+    r1crossr2 = np.linalg.norm(cross(r1, r2), ord=2)
+    n1 = r2crossr3/r1crossr3
+    n3 = r1crossr2/r1crossr3
+
+    return r1, r3
+
+
+IODset = array(Create_IODs())
+r1, r2 = find_r(IODset)
