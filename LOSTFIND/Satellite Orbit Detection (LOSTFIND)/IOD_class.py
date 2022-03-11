@@ -98,11 +98,11 @@ class IOD:
             RaM = int(X[2:4])
             RaS = int(X[4:6])
             Ras = int(X[6:7])
-            self.RaRad =  # Radians
+            self.RaRad =  ((360/24)*RaH+RaM/60+RaS/3600+Ras/36000)*(math.pi/180)# Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = +  # Radians
+            self.DecRad = (DecD + DecM/60+DecS/3600)*(math.pi/180)# Radians
 
         ###############################################
         # To do compute basis vector
@@ -110,13 +110,16 @@ class IOD:
 
     def get_e(self):
         '''returns the unit vector pointing from telescope towards satellite'''
-        return np.array([0, 0, 0])
+        ra = self.RaRad
+        dec = self.DecRad
+        e = (math.cos(dec)*math.cos(ra),math.cos(dec)*math.sin(ra),math.sin(dec))
+        return e
 
     def get_time(self):
         return self.unix_epochtime
 
     def printIOD(self):
-        print("Ra: ", self.Ra, "Dec: ", self.Dec)
+        print("Ra: ", self.RaRad, "Dec: ", self.DecRad)
         print("TIME SINCE UNIX:", self.unix_epochtime)
 
 
