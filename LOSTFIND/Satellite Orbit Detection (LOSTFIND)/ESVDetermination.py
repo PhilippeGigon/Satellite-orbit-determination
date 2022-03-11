@@ -2,11 +2,12 @@ from IOD_class import *
 from numpy import *
 import os
 import ephem
+import datetime  
 import math
 import numpy as np
 
 
-def get_R(date_string):
+def get_R(epoch_time):
     '''This function reads the telescopes GPS position
     and then finds the coordinates in the absolute coordinate system'''
     script_dir = os.path.dirname(__file__)  # Location of python script
@@ -20,11 +21,9 @@ def get_R(date_string):
     Re = 6378137  # Equatorial earth radius in meter
     f = 0.003353  # oblateness
     lat = Station_Coordinates[0]  # read latitudes GPS coordinates
-    H = Station_Coordinates[2]  # read altitudes from GPS or google map
-    station = ephem.Observer()
-    station.lon = Station_Coordinates[1]  # should be a str i think
-    station.lat = Station_Coordinates[0]
-    station.date = time
+    H = Station_Coordinates[2]  # read altitudes from GPS or google map 
+    date_time = datetime.datetime.fromtimestamp( epoch_time )  
+    station.date = date_time
     time = station.sidereal_time()
     R = ((Re/(math.sqrt(1-(2*f-f*f)*math.sin(lat)*math.sin(lat)))+H)*math.cos(lat)*math.cos(time),
          (Re/(math.sqrt(1-(2*f-f*f)*math.sin(lat)*math.sin(lat)))+H) *
