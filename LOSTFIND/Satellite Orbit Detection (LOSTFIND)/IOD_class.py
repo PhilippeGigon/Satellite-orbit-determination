@@ -79,21 +79,15 @@ class IOD:
         ###############################################
 
         # Measured angles
-        # El either positive or negative
+        # Declination and right ascention
         if "-" in i:
             X, Y = i.split("-")
-            self.Az = int(X)
-            self.El = -int(Y)
+            self.Dec = int(X)
+            self.Ra = -int(Y)
         if "+" in i:
             X, Y = i.split("+")
-            self.Az = int(X)
-            self.El = int(Y)
-
-    def get_Az(self):
-        return self.Az
-
-    def get_El(self):
-        return self.El
+            self.Dec = int(X)
+            self.Ra = int(Y)
 
     def get_time_unix(self):
         return self.unix_epochtime
@@ -106,9 +100,8 @@ class IOD:
         return np.array([0, 0, 0])
 
     def printIOD(self):
-        print("Az: ", self.Az, "El: ", self.El)
-        print("HH: ", self.t_hour, "MM: ",
-              self.t_minute, "SSSS: ", self.t_msecond)
+        print("Dec: ", self.Dec, "Ra: ", self.Ra)
+        print("TIME SINCE UNIX:", get_time_unix())
 
 
 #############################################################
