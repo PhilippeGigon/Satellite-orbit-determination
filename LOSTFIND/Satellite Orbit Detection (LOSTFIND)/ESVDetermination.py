@@ -86,8 +86,8 @@ def find_r(iodset):
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
         n3 = (t2-t1)/(t3-t1)
-        n1old = 100
-        n3old = 100
+        n1old = 0
+        n3old = 0
 
     else:
         raise ValueError(
@@ -96,14 +96,16 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 0.0000000001
-    s = 0
+    epsilon = 0.01  # Difference between n and previous n smaller than epsilon-->stop
+    itmax = 100  # Maximum number of iterations
+    iteration = 0
     # Does the loop as long as the n1,n3 change significat
     while True:
-        s += 1
+        iteration += 1
         rho1, rho2, rho3 = find_rho(
             n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
         # Computes the vector from earth center to satellite
+        print("Iteration: ", iteration, rho1, rho2, rho3)
         r1 = R1+rho1*e1
         r2 = R2+rho2*e2
         r3 = R3+rho3*e3
@@ -118,15 +120,10 @@ def find_r(iodset):
         n3old = n3
         n1 = float(r2crossr3/r1crossr3)
         n3 = float(r1crossr2/r1crossr3)
-        if abs(n1-n1old) < epsilon and abs(n3-n3old) < epsilon:
-            print("Number of iterations: ", s)
+        if abs(n1-n1old) < epsilon and abs(n3-n3old) < epsilon or iteration > itmax:
+            print("Number of iterations: ", iteration)
             break
 
     r1 = R1+rho1*e1
     r3 = R3+rho3*e3
-    print(s)
     return r1, r3
-
-
-IODset = array(Create_IODs())
-r1, r2 = find_r(IODset)

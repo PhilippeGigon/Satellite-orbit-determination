@@ -15,7 +15,7 @@ def main():
     print(sqrt(dot(r2, r2))/1000.0-6371.0)
 
     # Create TLE
-    # prec = 0.1 # precision
+    # prec = 0.1  # precision
     #tle = TLE(Position, prec)
     #tle_list = tle.list_TLE()
     # print(tle_list)
