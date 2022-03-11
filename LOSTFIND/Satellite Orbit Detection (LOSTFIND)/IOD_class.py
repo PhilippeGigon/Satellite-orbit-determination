@@ -3,6 +3,7 @@ import os
 import re
 import numpy as np
 import datetime
+import constants
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads
@@ -87,11 +88,11 @@ class IOD:
             RaS = int(X[4:6])
             Ras = int(X[6:7])
             self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*(math.pi/180)  # Radians
+                          Ras/36000)*constants.degtorad # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = -(DecD + DecM/60+DecS/3600)*(math.pi/180)  # Radians
+            self.DecRad = -(DecD + DecM/60+DecS/3600)*constants.degtorad # Radians
 
         if "+" in i:
             X, Y = i.split("+")
@@ -100,11 +101,11 @@ class IOD:
             RaS = int(X[4:6])
             Ras = int(X[6:7])
             self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*(math.pi/180)  # Radians
+                          Ras/36000)*constants.degtorad # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = (DecD + DecM/60+DecS/3600)*(math.pi/180)  # Radians
+            self.DecRad = (DecD + DecM/60+DecS/3600)*constants.degtorad # Radians
 
         ###############################################
         # To do compute basis vector
