@@ -21,7 +21,7 @@ def get_R(epoch_time):
     Re = 6378137  # Equatorial earth radius in meter
     f = 0.003353  # oblateness
     # read latitudes GPS coordinates
-    lat = float(Station_Coordinates[0])*(pi/180)
+    lat = float(Station_Coordinates[0])*(np.pi/180)
     H = float(Station_Coordinates[1])  # read altitudes from GPS or google map
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
@@ -96,7 +96,7 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 0.01  # Difference between n and previous n smaller than epsilon-->stop
+    epsilon = 0.00001  # Difference between n and previous n smaller than epsilon-->stop
     itmax = 100  # Maximum number of iterations
     iteration = 0
     # Does the loop as long as the n1,n3 change significat
@@ -105,14 +105,13 @@ def find_r(iodset):
         rho1, rho2, rho3 = find_rho(
             n1, n3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33)
         # Computes the vector from earth center to satellite
-        print("Iteration: ", iteration, rho1, rho2, rho3)
         r1 = R1+rho1*e1
-        r2 = R2+rho2*e2
         r3 = R3+rho3*e3
+        r2 = R2+rho2*e2
         # Next guess for n1, n3
-        r1crossr3 = np.linalg.norm(cross(r1, r3), ord=2)
-        r2crossr3 = np.linalg.norm(cross(r2, r3), ord=2)
-        r1crossr2 = np.linalg.norm(cross(r1, r2), ord=2)
+        r1crossr3 = sqrt(dot(cross(r1, r3), cross(r1, r3)))
+        r2crossr3 = sqrt(dot(cross(r2, r3), cross(r2, r3)))
+        r1crossr2 = sqrt(dot(cross(r1, r2), cross(r1, r2)))
         if r1crossr3 == 0:
             raise ValueError(
                 "Two vectors are parallel!")
@@ -120,6 +119,7 @@ def find_r(iodset):
         n3old = n3
         n1 = float(r2crossr3/r1crossr3)
         n3 = float(r1crossr2/r1crossr3)
+
         if abs(n1-n1old) < epsilon and abs(n3-n3old) < epsilon or iteration > itmax:
             print("Number of iterations: ", iteration)
             break
