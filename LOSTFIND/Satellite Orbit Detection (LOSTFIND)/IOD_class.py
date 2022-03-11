@@ -59,9 +59,6 @@ class IOD:
         self.Station_ID = b
         self.Station_stat = c
 
-        # Date total
-        self.stringdate = f
-
         ###############################################
         # To do compute unix_epochtime
         ###############################################
@@ -72,7 +69,7 @@ class IOD:
         t_minute = int(f[10:12])
         t_msecond = int(f[12:])  # in miliseconds
         # time in seconds since 01.01.1970 (UNIX)
-        self.unix_epochtime =
+        self.unix_epochtime = 0
         ###############################################
         ###############################################
 
@@ -95,9 +92,6 @@ class IOD:
 
     def get_time_unix(self):
         return self.unix_epochtime
-
-    def get_stringdate():
-        return self.stringdate()
 
     def printIOD(self):
         print("Az: ", self.Az, "El: ", self.El)

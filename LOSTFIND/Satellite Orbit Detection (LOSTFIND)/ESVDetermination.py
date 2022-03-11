@@ -40,10 +40,15 @@ def find_r(iodset):
     '''This code takes an array of IOD' and then computes 
     two vectors r1 and r2 pointing to the satellite'''
 
+    # Creates the vector pointing to the station
+    for k in range(0, 3):
+        R[k] = get_R(iodset[k].get_stringdate())
+
     # First estimations of n1 and n2:
-    t1 = iodset[0].get_time_seconds()
-    t2 = iodset[1].get_time_seconds()
-    t3 = iodset[2].get_time_seconds()
+    t1 = iodset[0].get_time_unix()
+    t2 = iodset[1].get_time_unix()
+    t3 = iodset[2].get_time_unix()
+
     print(t1, t2, t3)
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
