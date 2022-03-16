@@ -45,6 +45,7 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
     RHO1 = -1.0/(N1*D)*(N1*D11-D12+N3*D13)
     RHO2 = 1.0/D*(N1*D21-D22+N3*D23)
     RHO3 = -1.0/(N3*D)*(N1*D31-D32+N3*D33)
+    print(RHO1, RHO2, RHO3)
     return RHO1, RHO2, RHO3
 
 
@@ -71,21 +72,22 @@ def find_r(iodset):
     d1 = cross(e2, e3)
     d2 = cross(e3, e1)
     d3 = cross(e1, e2)
-    D11 = dot(e1, R1)
-    D12 = dot(e1, R2)
-    D13 = dot(e1, R3)
-    D21 = dot(e2, R1)
-    D22 = dot(e2, R2)
-    D23 = dot(e2, R3)
-    D31 = dot(e3, R1)
-    D32 = dot(e3, R2)
-    D33 = dot(e3, R3)
+    D11 = dot(d1, R1)
+    D12 = dot(d1, R2)
+    D13 = dot(d1, R3)
+    D21 = dot(d2, R1)
+    D22 = dot(d2, R2)
+    D23 = dot(d2, R3)
+    D31 = dot(d3, R1)
+    D32 = dot(d3, R2)
+    D33 = dot(d3, R3)
     D = dot(e3, d3)
 
     # Intial guess for n1, n3
     if abs(t3-t1) and abs(t2-t1) > 0.00001:
         n1 = (t3-t2)/(t3-t1)
         n3 = (t2-t1)/(t3-t1)
+        #print("Initial n1,n2:", n1, n3)
         n1old = 0
         n3old = 0
 
@@ -96,7 +98,8 @@ def find_r(iodset):
     ############################################################################
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
-    epsilon = 0.00001  # Difference between n and previous n smaller than epsilon-->stop
+    # Difference between n and previous n smaller than epsilon-->stop
+    epsilon = 0.00000000000000000000001
     itmax = 100  # Maximum number of iterations
     iteration = 0
     # Does the loop as long as the n1,n3 change significat
@@ -121,7 +124,8 @@ def find_r(iodset):
         n3 = float(r1crossr2/r1crossr3)
 
         if abs(n1-n1old) < epsilon and abs(n3-n3old) < epsilon or iteration > itmax:
-            print("Number of iterations: ", iteration)
+            print("Number of iterations: ", iteration,
+                  "differnece:", abs(n1-n1old))
             break
 
     r1 = R1+rho1*e1
