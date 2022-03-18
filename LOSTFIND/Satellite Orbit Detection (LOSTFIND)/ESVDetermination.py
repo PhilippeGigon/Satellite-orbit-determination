@@ -26,7 +26,6 @@ def get_R(epoch_time, lat, H):
     ################################################################
     #############################################################
     ###############################################################
-    Data.close()
     return R
 
 
@@ -37,7 +36,6 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
     RHO1 = -1.0/(N1*D)*(N1*D11-D12+N3*D13)
     RHO2 = 1.0/D*(N1*D21-D22+N3*D23)
     RHO3 = -1.0/(N3*D)*(N1*D31-D32+N3*D33)
-    print(RHO1, RHO2, RHO3)
     return RHO1, RHO2, RHO3
 
 
@@ -49,6 +47,7 @@ def find_r(iodset):
     abs_file_path = os.path.join(script_dir, rel_path)
     Data = open(abs_file_path, "r")
     Station_Coordinates = Data.readlines()
+    Data.close()
     lat1 = float(Station_Coordinates[0])*(np.pi/180)
     lon1 = float(Station_Coordinates[1])*(np.pi/180)
     h1 = float(Station_Coordinates[2])
@@ -58,7 +57,6 @@ def find_r(iodset):
     lat3 = float(Station_Coordinates[6])*(np.pi/180)
     lon3 = float(Station_Coordinates[7])*(np.pi/180)
     h3 = float(Station_Coordinates[8])
-
     # Creates the vector pointing to the station
     R1 = get_R(iodset[0].get_time(), lat1, h1)
     R2 = get_R(iodset[1].get_time(), lat2, h2)
