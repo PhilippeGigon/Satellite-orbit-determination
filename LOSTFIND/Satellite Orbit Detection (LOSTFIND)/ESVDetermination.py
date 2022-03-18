@@ -42,6 +42,8 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
 def find_r(iodset):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite'''
+
+    # Extracting location of station
     script_dir = os.path.dirname(__file__)  # Location of python script
     rel_path = "LOCATION.txt"  # Name of .txt
     abs_file_path = os.path.join(script_dir, rel_path)
@@ -57,12 +59,13 @@ def find_r(iodset):
     lat3 = float(Station_Coordinates[6])*(np.pi/180)
     lon3 = float(Station_Coordinates[7])*(np.pi/180)
     h3 = float(Station_Coordinates[8])
+
     # Creates the vector pointing to the station
     R1 = get_R(iodset[0].get_time(), lat1, h1)
     R2 = get_R(iodset[1].get_time(), lat2, h2)
     R3 = get_R(iodset[2].get_time(), lat3, h3)
 
-    # First estimations of n1 and n2:
+    # Extracting observation time:
     t1 = iodset[0].get_time()
     t2 = iodset[1].get_time()
     t3 = iodset[2].get_time()
@@ -103,7 +106,7 @@ def find_r(iodset):
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
     # Difference between n and previous n smaller than epsilon-->stop
-    epsilon = 0.00000000000000000000001
+    epsilon = 0.000001
     itmax = 100  # Maximum number of iterations
     iteration = 0
     # Does the loop as long as the n1,n3 change significat

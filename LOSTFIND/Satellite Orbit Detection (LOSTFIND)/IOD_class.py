@@ -115,7 +115,7 @@ class IOD:
         dec = self.DecRad
         e = np.array([math.cos(dec)*math.cos(ra), math.cos(dec)
                       * math.sin(ra), math.sin(dec)])
-        Rot = np.matrix([[-math.sin(longitude), math.cos(longitude), 0], [-math.sin(latitude)*math.cos(longitude), math.sin(latitude)*math.sin(
+        Rot = np.matrix([[-math.sin(longitude), math.cos(longitude), 0], [-math.sin(latitude)*math.cos(longitude), -math.sin(latitude)*math.sin(
             longitude), math.cos(latitude)], [math.cos(latitude)*math.cos(longitude), math.cos(latitude)*math.sin(longitude), math.sin(latitude)]])
         eloc = np.matmul(Rot, np.transpose(e-R))
         return np.array([eloc[0, 0], eloc[0, 1], eloc[0, 2]])
