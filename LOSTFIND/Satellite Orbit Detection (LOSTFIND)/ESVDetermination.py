@@ -8,13 +8,6 @@ import numpy as np
 
 
 def get_R(epoch_time,lat,H):
-    '''This function reads the telescopes GPS position
-    and then finds the coordinates in the absolute coordinate system'''
-    script_dir = os.path.dirname(__file__)  # Location of python script
-    rel_path = "LOCATION.txt"  # Name of .txt
-    abs_file_path = os.path.join(script_dir, rel_path)
-    Data = open(abs_file_path, "r")
-    Station_Coordinates = Data.readlines()
     ################################################################
     ########################Rick part, may be wrong###################################
     ################################################################
