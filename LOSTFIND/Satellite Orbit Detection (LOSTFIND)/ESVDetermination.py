@@ -71,6 +71,9 @@ def find_r(iodset):
     e1 = iodset[0].get_e(lat1, lon1, R1)
     e2 = iodset[1].get_e(lat2, lon2, R2)
     e3 = iodset[2].get_e(lat3, lon3, R3)
+    e1 = iodset[0].get_e()
+    e2 = iodset[1].get_e()
+    e3 = iodset[2].get_e()
 
     # Usefull definitions
     d1 = cross(e2, e3)
@@ -103,8 +106,6 @@ def find_r(iodset):
     #########HERE THE CODE SHOULD DO A LOOP UNTIL PRECISION IS REACHED##########
     ############################################################################
     # Difference between n and previous n smaller than epsilon-->stop
-    epsilon = 0.00000000000000000000001
-    itmax = 100  # Maximum number of iterations
     iteration = 0
     # Does the loop as long as the n1,n3 change significat
     while True:
@@ -130,6 +131,7 @@ def find_r(iodset):
         if abs(n1-n1old) < epsilon and abs(n3-n3old) < epsilon or iteration > itmax:
             print("Number of iterations: ", iteration,
                   "differnece:", abs(n1-n1old))
+                  "difference:", abs(n1-n1old))
             break
 
     r1 = R1+rho1*e1
