@@ -7,23 +7,14 @@ import math
 import numpy as np
 
 
-def get_R(epoch_time):
-    '''This function reads the telescopes GPS position
-    and then finds the coordinates in the absolute coordinate system'''
-    script_dir = os.path.dirname(__file__)  # Location of python script
-    rel_path = "LOCATION.txt"  # Name of .txt
-    abs_file_path = os.path.join(script_dir, rel_path)
-    Data = open(abs_file_path, "r")
-    Station_Coordinates = Data.readlines()
+def get_R(epoch_time, lat, H):
     ################################################################
     ########################Rick part, may be wrong###################################
     ################################################################
     Re = 6378137  # Equatorial earth radius in meter
     f = 0.003353  # oblateness
     # read latitudes GPS coordinates
-    lat = float(Station_Coordinates[0])*(np.pi/180)
-    lon = float(Station_Coordinates[1])*(np.pi/180)
-    H = float(Station_Coordinates[2])  # read altitudes from GPS or google map
+
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
     station.date = date_time
@@ -53,11 +44,25 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
 def find_r(iodset):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite'''
+    script_dir = os.path.dirname(__file__)  # Location of python script
+    rel_path = "LOCATION.txt"  # Name of .txt
+    abs_file_path = os.path.join(script_dir, rel_path)
+    Data = open(abs_file_path, "r")
+    Station_Coordinates = Data.readlines()
+    lat1 = float(Station_Coordinates[0])*(np.pi/180)
+    lon1 = float(Station_Coordinates[1])*(np.pi/180)
+    h1 = float(Station_Coordinates[2])
+    lat2 = float(Station_Coordinates[3])*(np.pi/180)
+    lon2 = float(Station_Coordinates[4])*(np.pi/180)
+    h2 = float(Station_Coordinates[5])
+    lat3 = float(Station_Coordinates[6])*(np.pi/180)
+    lon3 = float(Station_Coordinates[7])*(np.pi/180)
+    h3 = float(Station_Coordinates[8])
 
     # Creates the vector pointing to the station
-    R1 = get_R(iodset[0].get_time())
-    R2 = get_R(iodset[1].get_time())
-    R3 = get_R(iodset[2].get_time())
+    R1 = get_R(iodset[0].get_time(), lat1, h1)
+    R2 = get_R(iodset[1].get_time(), lat2, h2)
+    R3 = get_R(iodset[2].get_time(), lat3, h3)
 
     # First estimations of n1 and n2:
     t1 = iodset[0].get_time()
@@ -65,9 +70,9 @@ def find_r(iodset):
     t3 = iodset[2].get_time()
 
     # Unit vectors pointing to satellite
-    e1 = iodset[0].get_e()
-    e2 = iodset[1].get_e()
-    e3 = iodset[2].get_e()
+    e1 = iodset[0].get_e(lat1, lon1, R1)
+    e2 = iodset[1].get_e(lat2, lon2, R2)
+    e3 = iodset[2].get_e(lat3, lon3, R3)
 
     # Usefull definitions
     d1 = cross(e2, e3)
