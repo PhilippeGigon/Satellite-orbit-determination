@@ -88,11 +88,12 @@ class IOD:
             RaS = int(X[4:6])
             Ras = int(X[6:7])
             self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*constants.degtorad # Radians
+                          Ras/36000)*constants.degtorad  # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = -(DecD + DecM/60+DecS/3600)*constants.degtorad # Radians
+            self.DecRad = -(DecD + DecM/60+DecS/3600) * \
+                constants.degtorad  # Radians
 
         if "+" in i:
             X, Y = i.split("+")
@@ -101,23 +102,22 @@ class IOD:
             RaS = int(X[4:6])
             Ras = int(X[6:7])
             self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*constants.degtorad # Radians
+                          Ras/36000)*constants.degtorad  # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = (DecD + DecM/60+DecS/3600)*constants.degtorad # Radians
+            self.DecRad = (DecD + DecM/60+DecS/3600) * \
+                constants.degtorad  # Radians
 
-        ###############################################
-        # To do compute basis vector
-        ###############################################
-
-    def get_e(self):
+    def get_e(self, latitude, longitude, R):
         '''returns the unit vector pointing from telescope towards satellite'''
         ra = self.RaRad
         dec = self.DecRad
         e = np.array([math.cos(dec)*math.cos(ra), math.cos(dec)
                       * math.sin(ra), math.sin(dec)])
-        return e
+        Rot = matrix([-sin(longitude), cos(longitude), 0], [-sin(latitude)*cos(longitude), sin(latitude)*sin(
+            longitude), cos(latitude)], [cos(latitude)*cos(longitude), cos(latitude)*sin(longitude), sin(latitude)])
+        return Rot*(e-R)
 
     def get_time(self):
         return self.unix_epochtime

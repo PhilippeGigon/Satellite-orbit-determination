@@ -22,7 +22,8 @@ def get_R(epoch_time):
     f = 0.003353  # oblateness
     # read latitudes GPS coordinates
     lat = float(Station_Coordinates[0])*(np.pi/180)
-    H = float(Station_Coordinates[1])  # read altitudes from GPS or google map
+    lon = float(Station_Coordinates[1])*(np.pi/180)
+    H = float(Station_Coordinates[2])  # read altitudes from GPS or google map
     station = ephem.Observer()
     date_time = datetime.datetime.fromtimestamp(epoch_time)
     station.date = date_time
