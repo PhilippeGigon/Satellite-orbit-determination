@@ -34,6 +34,7 @@ class TLE:
         self.EphType = self.getEphType() # Ephemeris type, always 0
         self.ESN = self.getESN() # Element set number
         self.checksum = self.getChecksum() # Checksum
+        self.rev = self.getRev() # revolution number at epoch
 
 
 
@@ -200,8 +201,8 @@ class TLE:
         time = self.t
         years = int(time / (60*60*24*365))
         EpochD = (time - (years * 60*60*24*365)) / (60*60*24)
-        retprov = "{:.8f}".format(EpochD)
-        return f"{retprov:03d}"
+        retprov = "{:11.8F}".format(EpochD)
+        return retprov
 
     def getDerMM(self):
         DerMM = 0
@@ -220,7 +221,8 @@ class TLE:
         return f"{inp:08d}"
 
     def getEphType(self):
-        return 0
+        EphType = '0'
+        return EphType
     
     def getESN(self):
         ESN = 0
@@ -229,6 +231,10 @@ class TLE:
     def getChecksum(self):
         orbnum = 0
         return (orbnum % 10)
+
+    def getRev(self):
+        rev = 0
+        return 0
 
 
     # create list of TLE
@@ -239,7 +245,7 @@ class TLE:
         line1 = str(1) + ' ' + self.SCN + self.Class + ' ' + self.intDesY \
             + self.intDesNY + self.intDesP + ' ' + self.epochY + self.epochD \
             + ' ' + self.derMM + ' ' + self.der2MM + ' ' + self.Bstar + ' ' \
-            + self.EphType + ' ' + self.ESN + self.checksum
+            + self.EphType + ' ' + self.ESN + str(self.checksum)
         # inclination
         str_i = f"{self.i:.4f}"
         if self.i < 100:
@@ -253,7 +259,7 @@ class TLE:
         string_e = str(round(self.e, 7))
         str_e = string_e[2:]
         # argument of perigee
-        str_o = str(round(self.omega), 4)
+        str_o = str(round(self.omega, 4))
         if self.omega < 100:
             str_o = '0' + str_o
         # mean anomaly
@@ -261,13 +267,16 @@ class TLE:
         if self.M < 100:
             str_M = '0' + str_M
         # mean motion
-        str_n = str(round(self.n))
+        str_n = str(round(self.n, 8))
         if self.n < 10:
             str_n = '0' + str_n
+        # revolution 
+        str_rev = "{:5d}".format(self.rev)
+        
 
         line2 = str(2) + ' ' + self.SCN + ' ' + str_i + ' ' + str_O + ' '\
-            + str_e + ' ' + str_o + ' ' + str_M + ' ' + str_n + self.rev \
-            + self.checksum
+            + str_e + ' ' + str_o + ' ' + str_M + ' ' + str_n + str_rev \
+            + str(self.checksum)
 
         f = open("TLE.out", "w")
         f.write(line1 + "\n" + line2)
