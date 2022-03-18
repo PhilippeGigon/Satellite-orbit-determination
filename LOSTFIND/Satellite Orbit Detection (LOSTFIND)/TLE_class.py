@@ -252,16 +252,12 @@ class TLE:
             str_i = '0' + str_i
     
         # right ascension
-        str_O = f"{self.Omega:.4f}"
-        if self.Omega < 100:
-            str_O = '0' + str_O
+        str_O = "{:8.4F}".format(self.Omega)
         # eccentricity
         string_e = str(round(self.e, 7))
-        str_e = string_e[2:]
+        str_e = string_e[3:]
         # argument of perigee
-        str_o = str(round(self.omega, 4))
-        if self.omega < 100:
-            str_o = '0' + str_o
+        str_o = "{:8.4F}".format(self.omega)
         # mean anomaly
         str_M = str(round(self.M, 4))
         if self.M < 100:
