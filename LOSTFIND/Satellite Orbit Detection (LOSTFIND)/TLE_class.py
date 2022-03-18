@@ -14,8 +14,8 @@ class TLE:
         # calculated TLE components
         self.e = self.eccentricity()
         self.n = self.mean_motion()
-        self.i = self.inclination()
-        self.Omega = self.right_ascension()
+        self.i = self.inclination(self.W)
+        self.Omega = self.right_ascension(self.W)
         self.omega = self.arg_perigee()
         self.M = self.mean_anomaly()
         self.t = (self.ta + self.tb)/2
@@ -50,6 +50,11 @@ class TLE:
         d = np.dot(self.ra, self.rb)
         return np.arccos(d/n)
 
+    def rad2deg(self, arg):
+        argDeg = arg*360/(2*constants.pi)
+        if argDeg < 0:
+            argDeg += 360
+        return argDeg
 
     #calculates the triangle area
     def calc_delta(self): 
@@ -122,18 +127,21 @@ class TLE:
     #####################
 
     
-    def inclination(W):
+    def inclination(self, W):
         arg = np.sqrt(W[0]**2 + W[1]**2)/W[2]
-        return np.arctan(arg)
+        inc = np.arctan(arg)
+        return self.rad2deg(inc)
 
-    def right_ascension(W):
-        return np.arctan(W[0]/-W[1])
+    def right_ascension(self, W):
+        Omega = np.arctan(W[0]/-W[1])
+        return self.rad2deg(Omega)
 
     def arg_perigee(self):
         W = self.unit_vect_W()
         nua = self.calc_nua()
         ua = np.arctan(self.ra[2]/(-self.ra[0]*W[1] + self.ra[1]*W[1]))
-        return ua - nua
+        arg = ua - nua
+        return self.rad2deg(arg)
 
     def eccentricity(self):
         delta = self.calc_delta()
@@ -144,7 +152,7 @@ class TLE:
         p = (2*delta*eta/tau)**2
         pa = p/np.linalg.norm(self.ra) -1
         pb = p/np.linalg.norm(self.rb) -1
-        nua = np.arctan((pa*np.cos(dnu) - pb))
+        nua = np.arctan((pa*np.cos(dnu) - pb)/(pa*np.sin(dnu)))
         e = pa/np.cos(nua)
         return e
 
@@ -162,7 +170,7 @@ class TLE:
         nua = self.calc_nua()
         Ea = np.arctan((np.sqrt(1-e**2)*np.sin(nua)) / (np.cos(nua) + e))
         M = Ea- e*np.sin(Ea)
-        return M
+        return self.rad2deg(M)
 
     #################################
     # Additional TLE components
