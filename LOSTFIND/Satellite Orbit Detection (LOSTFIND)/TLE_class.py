@@ -11,7 +11,7 @@ class TLE:
         self.prec = precision
         self.W = self.unit_vect_W()
 
-        # TLE components
+        # calculated TLE components
         self.e = self.eccentricity()
         self.n = self.mean_motion()
         self.i = self.inclination()
@@ -19,6 +19,25 @@ class TLE:
         self.omega = self.arg_perigee()
         self.M = self.mean_anomaly()
         self.t = (self.ta + self.tb)/2
+
+        # additional TLE components
+        self.SCN = self.getSCN() # Satellite Catalog Number
+        self.Class = self.getClass() # classification of the satellite U = unclassified
+        self.intDesY = self.getIntDesY() # International Designator = last two digits of launch year
+        self.intDesNY = self.getIntDesNY() # International Designator = launch number of the year
+        self.intDesP = self.getIntDesP() # International Designator = piece of the launch
+        self.epochY = self.getEpochY() # last two digits of epoch year
+        self.epochD = self.getEpochD() # day and fraction of the day
+        self.derMM = self.getDerMM() # first derivative of the mean motion
+        self.der2MM = self.getDer2MM() # second derivative of the mean motion
+        self.Bstar = self.getBstar() # Drag term, radiation pressure coeff
+        self.EphType = self.getEphType() # Ephemeris type, always 0
+        self.ESN = self.getESN() # Element set number
+        self.checksum = self.getChecksum() # Checksum
+
+
+
+
 
     def __getitem__(self, index):
         return self.W[index]
@@ -144,6 +163,112 @@ class TLE:
         M = Ea- e*np.sin(Ea)
         return M
 
+    #################################
+    # Additional TLE components
+    #################################
+
+    def getSCN(self):
+        SCN = 0
+        return f"{SCN:05d}"
+    
+    def getClass(self):
+        Class = 'U'
+        return Class
+
+    def getIntDesY(self):
+        IntDesY = 0
+        return f"{IntDesY:02d}"
+
+    def getIntDesNY(self):
+        IntDesNY = 0
+        return f"{IntDesNY:03d}"
+
+    def getIntDesP(self):
+        IntDesP = 0
+        return f"{IntDesP:03d}"
+    
+    def getEpochY(self):
+        time = self.t
+        years = int(time / (60*60*24*365)) + 1970
+        if years < 2000:
+            EpochY = years - 1900
+        else: 
+            EpochY = years - 2000
+        return f"{EpochY:02d}"
+
+    def getEpochD(self):
+        time = self.t
+        years = int(time / (60*60*24*365))
+        EpochD = (time - (years * 60*60*24*365)) / (60*60*24)
+        retprov = "{:.8f}".format(EpochD)
+        return f"{retprov:03d}"
+
+    def getDerMM(self):
+        DerMM = 0
+        return "{:.7f}".format(DerMM)
+
+    def getDer2MM(self):
+        Der2MM = 0
+        return f"{Der2MM:010d}"
+
+    def getBstar(self):
+        inp = 0
+        #exp = fexp(inp)
+        #first = int(inp * 10**(-exp+4))
+        #second = exp + 1
+        #return (str(first) + str(second))
+        return f"{inp:08d}"
+
+    def getEphType(self):
+        return 0
+    
+    def getESN(self):
+        ESN = 0
+        return f"{ESN:02d}"
+
+    def getChecksum(self):
+        orbnum = 0
+        return (orbnum % 10)
+
+
     # create list of TLE
     def list_TLE(self):
         return [self.e, self.n, self.i, self.Omega, self.omega, self.M, self.t]
+
+    def TLE_format(self):
+        line1 = str(1) + ' ' + self.SCN + self.Class + ' ' + self.intDesY \
+            + self.intDesNY + self.intDesP + ' ' + self.epochY + self.epochD \
+            + ' ' + self.derMM + ' ' + self.der2MM + ' ' + self.Bstar + ' ' \
+            + self.EphType + ' ' + self.ESN + self.checksum
+        # inclination
+        str_i = f"{self.i:.4f}"
+        if self.i < 100:
+            str_i = '0' + str_i
+    
+        # right ascension
+        str_O = f"{self.Omega:.4f}"
+        if self.Omega < 100:
+            str_O = '0' + str_O
+        # eccentricity
+        string_e = str(round(self.e, 7))
+        str_e = string_e[2:]
+        # argument of perigee
+        str_o = str(round(self.omega), 4)
+        if self.omega < 100:
+            str_o = '0' + str_o
+        # mean anomaly
+        str_M = str(round(self.M, 4))
+        if self.M < 100:
+            str_M = '0' + str_M
+        # mean motion
+        str_n = str(round(self.n))
+        if self.n < 10:
+            str_n = '0' + str_n
+
+        line2 = str(2) + ' ' + self.SCN + ' ' + str_i + ' ' + str_O + ' '\
+            + str_e + ' ' + str_o + ' ' + str_M + ' ' + str_n + self.rev \
+            + self.checksum
+
+        f = open("TLE.out", "w")
+        f.write(line1 + "\n" + line2)
+        f.close
