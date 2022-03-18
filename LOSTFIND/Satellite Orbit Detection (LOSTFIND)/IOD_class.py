@@ -88,11 +88,12 @@ class IOD:
             RaS = int(X[4:6])
             Ras = int(X[6:7])
             self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*constants.degtorad # Radians
+                          Ras/36000)*constants.degtorad  # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = -(DecD + DecM/60+DecS/3600)*constants.degtorad # Radians
+            self.DecRad = -(DecD + DecM/60+DecS/3600) * \
+                constants.degtorad  # Radians
 
         if "+" in i:
             X, Y = i.split("+")
@@ -101,23 +102,23 @@ class IOD:
             RaS = int(X[4:6])
             Ras = int(X[6:7])
             self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*constants.degtorad # Radians
+                          Ras/36000)*constants.degtorad  # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            self.DecRad = (DecD + DecM/60+DecS/3600)*constants.degtorad # Radians
+            self.DecRad = (DecD + DecM/60+DecS/3600) * \
+                constants.degtorad  # Radians
 
-        ###############################################
-        # To do compute basis vector
-        ###############################################
-
-    def get_e(self):
+    def get_e(self, latitude, longitude, R):
         '''returns the unit vector pointing from telescope towards satellite'''
         ra = self.RaRad
         dec = self.DecRad
         e = np.array([math.cos(dec)*math.cos(ra), math.cos(dec)
                       * math.sin(ra), math.sin(dec)])
-        return e
+        Rot = np.matrix([[-math.sin(longitude), math.cos(longitude), 0], [-math.sin(latitude)*math.cos(longitude), math.sin(latitude)*math.sin(
+            longitude), math.cos(latitude)], [math.cos(latitude)*math.cos(longitude), math.cos(latitude)*math.sin(longitude), math.sin(latitude)]])
+        eloc = np.matmul(Rot, np.transpose(e-R))
+        return np.array([eloc[0, 0], eloc[0, 1], eloc[0, 2]])
 
     def get_time(self):
         return self.unix_epochtime
