@@ -13,7 +13,7 @@ def main():
     t1 = IODset[0].get_time()
     t2 = IODset[2].get_time()
     Position = [r1, r2, t1, t2]
-    # print(math.sqrt(dot(r1, r1))/1000.0-6371.0)
+    print(math.sqrt(dot(r1, r1))/1000.0-6371.0)
 
     # Create TLE
     prec = 0.1  # precision
