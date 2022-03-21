@@ -14,8 +14,8 @@ class TLE:
         # calculated TLE components
         self.e = self.eccentricity()
         self.n = self.mean_motion()
-        self.i = self.inclination(self.W)
-        self.Omega = self.right_ascension(self.W)
+        self.i = self.inclination()
+        self.Omega = self.right_ascension()
         self.omega = self.arg_perigee()
         self.M = self.mean_anomaly()
         self.t = (self.ta + self.tb)/2
@@ -50,11 +50,6 @@ class TLE:
         d = np.dot(self.ra, self.rb)
         return np.arccos(d/n)
 
-    def rad2deg(self, arg):
-        argDeg = arg*360/(2*constants.pi)
-        if argDeg < 0:
-            argDeg += 360
-        return argDeg
 
     #calculates the triangle area
     def calc_delta(self): 
@@ -127,21 +122,18 @@ class TLE:
     #####################
 
     
-    def inclination(self, W):
+    def inclination(W):
         arg = np.sqrt(W[0]**2 + W[1]**2)/W[2]
-        inc = np.arctan(arg)
-        return self.rad2deg(inc)
+        return np.arctan(arg)
 
-    def right_ascension(self, W):
-        Omega = np.arctan(W[0]/-W[1])
-        return self.rad2deg(Omega)
+    def right_ascension(W):
+        return np.arctan(W[0]/-W[1])
 
     def arg_perigee(self):
         W = self.unit_vect_W()
         nua = self.calc_nua()
         ua = np.arctan(self.ra[2]/(-self.ra[0]*W[1] + self.ra[1]*W[1]))
-        arg = ua - nua
-        return self.rad2deg(arg)
+        return ua - nua
 
     def eccentricity(self):
         delta = self.calc_delta()
@@ -152,7 +144,7 @@ class TLE:
         p = (2*delta*eta/tau)**2
         pa = p/np.linalg.norm(self.ra) -1
         pb = p/np.linalg.norm(self.rb) -1
-        nua = np.arctan((pa*np.cos(dnu) - pb)/(pa*np.sin(dnu)))
+        nua = np.arctan((pa*np.cos(dnu) - pb))
         e = pa/np.cos(nua)
         return e
 
@@ -170,7 +162,7 @@ class TLE:
         nua = self.calc_nua()
         Ea = np.arctan((np.sqrt(1-e**2)*np.sin(nua)) / (np.cos(nua) + e))
         M = Ea- e*np.sin(Ea)
-        return self.rad2deg(M)
+        return M
 
     #################################
     # Additional TLE components
@@ -260,12 +252,16 @@ class TLE:
             str_i = '0' + str_i
     
         # right ascension
-        str_O = "{:8.4F}".format(self.Omega)
+        str_O = f"{self.Omega:.4f}"
+        if self.Omega < 100:
+            str_O = '0' + str_O
         # eccentricity
         string_e = str(round(self.e, 7))
-        str_e = string_e[3:]
+        str_e = string_e[2:]
         # argument of perigee
-        str_o = "{:8.4F}".format(self.omega)
+        str_o = str(round(self.omega, 4))
+        if self.omega < 100:
+            str_o = '0' + str_o
         # mean anomaly
         str_M = str(round(self.M, 4))
         if self.M < 100:
