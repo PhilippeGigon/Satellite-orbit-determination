@@ -1,7 +1,6 @@
 from IOD_class import *
 from numpy import *
 import os
-import ephem
 import datetime
 import math
 import numpy as np
