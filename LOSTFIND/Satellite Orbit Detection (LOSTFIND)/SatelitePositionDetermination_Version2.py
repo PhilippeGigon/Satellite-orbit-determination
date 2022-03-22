@@ -1,24 +1,33 @@
-from IOD_class import *
 from numpy import *
 import os
 import ephem
 import datetime
 import math
-import numpy as np
+from IOD_class import *
 from StationPositionVector import *
-from constants import *
+from UniversalKeplerEquation import *
+from constants import mu
 
 
 def solveroot(A, B, C):
     '''This function solves the root
-    of the polynomial x^8+ax^6+bx^3+c=0 which 
+    of the polynomial x^8+ax^6+bx^3+c=0 which
     corresponds to the norm of r2, it needs to keep only
     the physical solutions (positive and not complex)'''
     coefs = np.array([1, 0, A, 0, 0, B, 0, 0, C])
     root = np.roots(coefs)
-    ############################################
-    ################TO DO######################
-    ############################################
+
+    n_roots = 0
+    for i in root:
+        if (i > 0) and np.isreal(i):
+            candidate = i.real
+            n_roots = n_roots+1
+    if n_roots == 0:
+        raise ValueError("No root found")
+    if n_roots > 1:
+        raise ValueError("Multiple roots found")
+
+    return candidate
 
 
 def find_r(iodset):
@@ -61,11 +70,28 @@ def find_r(iodset):
     e2 = iodset[1].get_e(lat2, lon2, R2)
     e3 = iodset[2].get_e(lat3, lon3, R3)
 
+    ##########################################
+    #################TEST#####################
+    ##########################################
+    R1 = np.array([3489800, 3430200, 4078500])
+    R2 = np.array([3460100, 3460100, 4078500])
+    R3 = np.array([3429900, 3490100,  4078500])
+    e1 = np.array([0.71643, 0.68074, -0.15270])
+    e2 = np.array([0.56897, 0.79531, -0.20917])
+    e3 = np.array([0.41841, 0.87007, -0.26059])
+    tau = 237.58
+    tau1 = -118.1
+    tau3 = 119.47
+    ##########################################
+    #################TEST#####################
+    ##########################################
+
     # Usefull definitions
     p1 = cross(e2, e3)
     p2 = cross(e1, e3)
     p3 = cross(e1, e2)
     D = dot(e1, p1)
+
     D11 = dot(R1, p1)
     D12 = dot(R1, p2)
     D13 = dot(R1, p3)
@@ -86,18 +112,44 @@ def find_r(iodset):
     c = -mu**2*B**2
 
     # Norm of r2
-    r2 = solveroot(a, b, c)
+    r2_norm = solveroot(a, b, c)
 
-    rho1 = 1/D*((6*(D31*tau1/tau3+D21*tau/tau3)*r2**3+mu*D31 *
-                (tau**2-tau1**2)*tau1/tau3)/(6*r2**3+mu*(tau**2-tau3**2))-D11)
-    rho3 = 1/D*((6*(D13*tau3/tau1-D23*tau/tau1)*r2**3+mu*D13 *
-                (tau**2-tau3**2)*tau3/tau1)/(6*r2**3+mu*(tau**2-tau3**2))-D33)
+    rho1 = 1/D*((6*(D31*tau1/tau3+D21*tau/tau3)*r2_norm**3+mu*D31 *
+                 (tau**2-tau1**2)*tau1/tau3)/(6*r2_norm**3+mu*(tau**2-tau3**2))-D11)
+    rho2 = A+mu*B/r2_norm**3
+
+    rho3 = 1/D*((6*(D13*tau3/tau1-D23*tau/tau1)*r2_norm**3+mu*D13 *
+                 (tau**2-tau3**2)*tau3/tau1)/(6*r2_norm**3+mu*(tau**2-tau1**2))-D33)
 
     # Vectors pointing to satellite
     r1 = rho1*e1+R1
-    r2 = r2*e2+R2
+    r2 = rho2*e2+R2
     r3 = rho3*e3+R3
 
+    # Lagrange coeffs
+    f1 = 1-1/2*mu/r2_norm**3*tau1**2
+    g1 = tau1-1/6*mu/r2_norm**3*tau1**3
+    f3 = 1-1/2*mu/r2_norm**3*tau3**2
+    g3 = tau3-1/6*mu/r2_norm**3*tau3**3
+
+    # speed at position 2
+    v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
+    ######################################################################
+    # If it was the right result the first print should give zero
+    # and the three others should give nearly the same values
+    ######################################################################
+    print(sqrt(dot(r2, r2))-r2_norm)
+    # print(sqrt(dot(r1, r1))/1000-6380)
+    # print(sqrt(dot(r2, r2))/1000-6380)
+    # print(sqrt(dot(r3, r3))/1000-6380)
+    ######################################################################
+
+    # iterate:
+    r2 = np.array([5659100, 6533800, 3270100])
+    v2 = np.array([-3908, 5057.3, -2222.2])
+    chi1 = get_chi(tau1, r2/1000, v2/1000)
+    chi3 = get_chi(tau3, r2/1000, v2/1000)
+    #print(chi1, chi3)
     return r1, r3
 
 
