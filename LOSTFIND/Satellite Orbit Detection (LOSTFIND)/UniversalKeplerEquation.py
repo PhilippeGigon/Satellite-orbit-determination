@@ -33,7 +33,6 @@ def get_chi(t, r, v):
     # computes norm
     r_mag = math.sqrt(np.dot(r, r))
     v_mag = math.sqrt(np.dot(v, v))
-    print(r_mag, v_mag)
     # Reciprocal of semi major axis
     alpha = 2/r_mag-v_mag**2/mukm
 

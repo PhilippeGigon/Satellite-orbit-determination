@@ -134,22 +134,13 @@ def find_r(iodset):
 
     # speed at position 2
     v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
-    ######################################################################
-    # If it was the right result the first print should give zero
-    # and the three others should give nearly the same values
-    ######################################################################
-    print(sqrt(dot(r2, r2))-r2_norm)
-    # print(sqrt(dot(r1, r1))/1000-6380)
-    # print(sqrt(dot(r2, r2))/1000-6380)
-    # print(sqrt(dot(r3, r3))/1000-6380)
-    ######################################################################
 
     # iterate:
     r2 = np.array([5659100, 6533800, 3270100])
     v2 = np.array([-3908, 5057.3, -2222.2])
     chi1 = get_chi(tau1, r2/1000, v2/1000)
     chi3 = get_chi(tau3, r2/1000, v2/1000)
-    #print(chi1, chi3)
+    print(chi1, chi3)
     return r1, r3
 
 
