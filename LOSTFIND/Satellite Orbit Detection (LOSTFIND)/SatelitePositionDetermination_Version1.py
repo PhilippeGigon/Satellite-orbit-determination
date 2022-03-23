@@ -39,9 +39,9 @@ def find_r(iodset):
     h3 = float(Station_Coordinates[8])
 
     # Creates the vector pointing to the station
-    R1 = get_R(iodset[0].get_time(), lat1, h1)
-    R2 = get_R(iodset[1].get_time(), lat2, h2)
-    R3 = get_R(iodset[2].get_time(), lat3, h3)
+    R1 = get_R(iodset[0].get_time(), lat1,lon1, h1,UT1)
+    R2 = get_R(iodset[1].get_time(), lat2,lon2, h2,UT2)
+    R3 = get_R(iodset[2].get_time(), lat3,lon3, h3,UT3)
 
     # Extracting observation time:
     t1 = iodset[0].get_time()

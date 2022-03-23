@@ -109,16 +109,17 @@ class IOD:
             self.DecRad = (DecD + DecM/60+DecS/3600) * \
                 constants.degtorad  # Radians
 
-    def get_e(self, latitude, longitude, R):
+    def get_e(self, latitude, time):
         '''returns the unit vector pointing from telescope towards satellite'''
         ra = self.RaRad
         dec = self.DecRad
-        e = np.array([math.cos(dec)*math.cos(ra), math.cos(dec)
-                      * math.sin(ra), math.sin(dec)])
-        Rot = np.matrix([[-math.sin(longitude), math.cos(longitude), 0], [-math.sin(latitude)*math.cos(longitude), -math.sin(latitude)*math.sin(
-            longitude), math.cos(latitude)], [math.cos(latitude)*math.cos(longitude), math.cos(latitude)*math.sin(longitude), math.sin(latitude)]])
-        eloc = np.matmul(Rot, np.transpose(e-R))
-        return np.array([eloc[0, 0], eloc[0, 1], eloc[0, 2]])
+        alt = get_alt(dec,ra,latitude,time)
+        az = get_az(alt,dec,ra,latitude,time)
+        e = np.array([math.cos(alt)*math.sin(az), math.cos(alt)*math.cos(az), math.sin(alt)])
+        Rot = np.array([[-math.sin(time), math.cos(time), 0], [-math.sin(latitude)*math.cos(time), -math.sin(latitude)*math.sin(
+            time), math.cos(latitude)], [math.cos(latitude)*math.cos(time), math.cos(latitude)*math.sin(time), math.sin(latitude)]])
+        eloc = Rot.dot(e)
+        return eloc
 
     def get_time(self):
         return self.unix_epochtime
