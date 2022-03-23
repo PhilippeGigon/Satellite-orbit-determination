@@ -7,6 +7,7 @@ import constants
 from IOD_class import *
 from StationPositionVector import *
 from UniversalKeplerEquation import *
+from Coordinates_conversion import *
 from constants import mu
 
 

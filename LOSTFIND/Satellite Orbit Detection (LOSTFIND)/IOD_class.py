@@ -4,6 +4,7 @@ import re
 import numpy as np
 import datetime
 import constants
+from Coordinates_conversion import *
 #############################################################
 # The class IOD encodes the IODs which have to be placed in
 # the same folder as the script. The function Create_IODs reads

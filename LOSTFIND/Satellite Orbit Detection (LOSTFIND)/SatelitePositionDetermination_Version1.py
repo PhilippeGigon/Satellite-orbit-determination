@@ -6,6 +6,7 @@ import math
 import numpy as np
 import constants
 from StationPositionVector import *
+from Coordinates_conversion import *
 
 
 def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
@@ -66,6 +67,8 @@ def find_r(iodset):
     d1 = cross(e2, e3)
     d2 = cross(e3, e1)
     d3 = cross(e1, e2)
+    print(d1)
+    print(R1)
     D11 = dot(d1, R1)
     D12 = dot(d1, R2)
     D13 = dot(d1, R3)
