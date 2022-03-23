@@ -3,6 +3,7 @@ import os
 import ephem
 import datetime
 import math
+import constants
 from IOD_class import *
 from StationPositionVector import *
 from UniversalKeplerEquation import *
@@ -42,16 +43,15 @@ def find_r(iodset):
     Data = open(abs_file_path, "r")
     Station_Coordinates = Data.readlines()
     Data.close()
-    lat1 = float(Station_Coordinates[0])*(np.pi/180)
-    lon1 = float(Station_Coordinates[1])*(np.pi/180)
+    lat1 = float(Station_Coordinates[0])*constants.degtorad
+    lon1 = float(Station_Coordinates[1])*constants.degtorad
     h1 = float(Station_Coordinates[2])
-    lat2 = float(Station_Coordinates[3])*(np.pi/180)
-    lon2 = float(Station_Coordinates[4])*(np.pi/180)
+    lat2 = float(Station_Coordinates[3])*constants.degtorad
+    lon2 = float(Station_Coordinates[4])*constants.degtorad
     h2 = float(Station_Coordinates[5])
-    lat3 = float(Station_Coordinates[6])*(np.pi/180)
-    lon3 = float(Station_Coordinates[7])*(np.pi/180)
+    lat3 = float(Station_Coordinates[6])*constants.degtorad
+    lon3 = float(Station_Coordinates[7])*constants.degtorad
     h3 = float(Station_Coordinates[8])
-    
     # Extracting observation time and time intervalls:
     t1 = iodset[0].get_time()
     t2 = iodset[1].get_time()

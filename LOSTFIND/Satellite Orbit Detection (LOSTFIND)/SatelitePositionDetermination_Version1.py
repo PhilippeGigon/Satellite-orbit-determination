@@ -4,6 +4,7 @@ import os
 import datetime
 import math
 import numpy as np
+import constants
 from StationPositionVector import *
 
 
@@ -21,6 +22,7 @@ def find_r(iodset):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite'''
 
+
     # Extracting location of station
     script_dir = os.path.dirname(__file__)  # Location of python script
     rel_path = "LOCATION.txt"  # Name of .txt
@@ -28,30 +30,37 @@ def find_r(iodset):
     Data = open(abs_file_path, "r")
     Station_Coordinates = Data.readlines()
     Data.close()
-    lat1 = float(Station_Coordinates[0])*(np.pi/180)
-    lon1 = float(Station_Coordinates[1])*(np.pi/180)
+    lat1 = float(Station_Coordinates[0])*constants.degtorad
+    lon1 = float(Station_Coordinates[1])*constants.degtorad
     h1 = float(Station_Coordinates[2])
-    lat2 = float(Station_Coordinates[3])*(np.pi/180)
-    lon2 = float(Station_Coordinates[4])*(np.pi/180)
+    lat2 = float(Station_Coordinates[3])*constants.degtorad
+    lon2 = float(Station_Coordinates[4])*constants.degtorad
     h2 = float(Station_Coordinates[5])
-    lat3 = float(Station_Coordinates[6])*(np.pi/180)
-    lon3 = float(Station_Coordinates[7])*(np.pi/180)
+    lat3 = float(Station_Coordinates[6])*constants.degtorad
+    lon3 = float(Station_Coordinates[7])*constants.degtorad
     h3 = float(Station_Coordinates[8])
-
-    # Creates the vector pointing to the station
-    R1 = get_R(iodset[0].get_time(), lat1,lon1, h1,UT1)
-    R2 = get_R(iodset[1].get_time(), lat2,lon2, h2,UT2)
-    R3 = get_R(iodset[2].get_time(), lat3,lon3, h3,UT3)
-
-    # Extracting observation time:
+    
+    # Extracting observation time and time intervalls:
     t1 = iodset[0].get_time()
     t2 = iodset[1].get_time()
     t3 = iodset[2].get_time()
+    time_s1 = get_lst(lon1,t1) 
+    time_s2 = get_lst(lon2,t2) 
+    time_s3 = get_lst(lon3,t3) 
+    tau = t3-t1
+    tau1 = t1-t2
+    tau3 = t3-t2
+
+   
+    # Creates the vector pointing to the station
+    R1 = get_R(time_s1, lat1, h1)
+    R2 = get_R(time_s2, lat2, h2)
+    R3 = get_R(time_s3, lat3, h3)
 
     # Unit vectors pointing to satellite
-    e1 = iodset[0].get_e(lat1, lon1, R1)
-    e2 = iodset[1].get_e(lat2, lon2, R2)
-    e3 = iodset[2].get_e(lat3, lon3, R3)
+    e1 = iodset[0].get_e(lat1, time_s1)
+    e2 = iodset[1].get_e(lat2, time_s2)
+    e3 = iodset[2].get_e(lat3, time_s3)
 
     # Usefull definitions
     d1 = cross(e2, e3)
