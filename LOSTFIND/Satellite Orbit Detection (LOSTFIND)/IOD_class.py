@@ -1,3 +1,4 @@
+#############################################################
 import math
 import os
 import re
@@ -20,6 +21,7 @@ def is_IOD(IOD_candidate):
     match = re.match(
         "[0-9]{5}\s[0-9]{2}\s[0-9]{3}[A-Z]{3}\s[0-9]{4}\s[A-Z]\s[0-9]{17}\s[0-9]{2}\s[0-9]{2}\s[0-9]{7}[+-][0-9]{6}\s[0-9]{2}\s[A-Z]\+[A-Z a-z]{3}\s[A-Z a-z]{2}\s[A-Z a-z]{6}", IOD_candidate)
     return match
+#############################################################
 
 
 def Create_IODs():
@@ -131,6 +133,5 @@ class IOD:
     def printIOD(self):
         print("Ra: ", self.RaRad, "Dec: ", self.DecRad)
         print("TIME SINCE UNIX:", self.unix_epochtime)
-
 
 #############################################################
