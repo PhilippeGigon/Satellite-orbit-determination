@@ -27,7 +27,7 @@ def Create_IODs():
      IOD classes containing the IODs'''
 
     script_dir = os.path.dirname(__file__)  # Location of python script
-    rel_path = "IOD.txt"  # Name of .txt
+    rel_path = "IOD_ELFIND2.txt"  # Name of .txt
     abs_file_path = os.path.join(script_dir, rel_path)
     Data = open(abs_file_path, "r")
     # Checks that we have 3 IOD's in the file
@@ -88,13 +88,15 @@ class IOD:
             RaM = int(X[2:4])
             RaS = int(X[4:6])
             Ras = int(X[6:7])
-            self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                          Ras/36000)*constants.degtorad  # Radians
+            self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
+                          15*Ras/36000)*constants.degtorad  # Radians
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
             self.DecRad = -(DecD + DecM/60+DecS/3600) * \
                 constants.degtorad  # Radians
+            #print(self.RaRad/constants.degtorad)
+            #print(self.DecRad/constants.degtorad)
 
         if "+" in i:
             X, Y = i.split("+")
@@ -116,9 +118,8 @@ class IOD:
         dec = self.DecRad
         alt = get_alt(dec,ra,latitude,time)
         az = get_az(alt,dec,ra,latitude,time)
-        e = np.array([math.cos(alt)*math.sin(az), math.cos(alt)*math.cos(az), math.sin(alt)])
-        Rot = np.array([[-math.sin(time), math.cos(time), 0], [-math.sin(latitude)*math.cos(time), -math.sin(latitude)*math.sin(
-            time), math.cos(latitude)], [math.cos(latitude)*math.cos(time), math.cos(latitude)*math.sin(time), math.sin(latitude)]])
+        e = np.array([math.cos(alt)*math.sin(az), math.cos(alt)*math.cos(az), math.sin(alt)]) 
+        Rot = np.array([[-math.sin(time), -math.sin(latitude)*math.cos(time), math.cos(latitude)*math.cos(time)], [math.cos(time), -math.sin(latitude)*math.sin(time), math.cos(latitude)*math.sin(time)], [0, math.cos(latitude), math.sin(latitude)]])
         eloc = Rot.dot(e)
         return eloc
 

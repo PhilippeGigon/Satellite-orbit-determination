@@ -10,10 +10,9 @@ def get_R(time, lat, H):
     ################################################################
     # read latitudes GPS coordinates
     #local_time 
-    R = ((constants.Re/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H)*math.cos(lat)*math.cos(time),
-    constants.Re/(math.sqrt(1-((2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H) *
-         math.cos(lat)*math.sin(time),
-         (constants.Re*(1-constants.f)*(1-constants.f)/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H)*math.sin(lat))
+    R = (((constants.Re/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H)*math.cos(lat)*math.cos(time)),
+    ((constants.Re/(math.sqrt(1-((2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat))))+H)*math.cos(lat)*math.sin(time)),
+         ((constants.Re*(1-constants.f)*(1-constants.f)/(math.sqrt(1-(2*constants.f-constants.f*constants.f)*math.sin(lat)*math.sin(lat)))+H)*math.sin(lat)))
     ################################################################
     #############################################################
     ###############################################################
