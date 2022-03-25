@@ -7,6 +7,10 @@ import numpy as np
 import constants
 from StationPositionVector import *
 from Coordinates_conversion import *
+#############################################################
+# First version of orbit determination according to book:
+# Satellite Orbits by Oliver Montbruck, this method never worked
+#############################################################
 
 
 def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
@@ -22,7 +26,6 @@ def find_rho(N1, N3, D, D11, D12, D13, D21, D22, D23, D31, D32, D33):
 def find_r(iodset):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite'''
-
 
     # Extracting location of station
     script_dir = os.path.dirname(__file__)  # Location of python script
@@ -40,14 +43,14 @@ def find_r(iodset):
     lat3 = float(Station_Coordinates[6])*constants.degtorad
     lon3 = float(Station_Coordinates[7])*constants.degtorad
     h3 = float(Station_Coordinates[8])
-    
+
     # Extracting observation time and time intervalls:
     t1 = iodset[0].get_time()
     t2 = iodset[1].get_time()
     t3 = iodset[2].get_time()
-    time_s1 = get_lst(lon1,t1) 
-    time_s2 = get_lst(lon2,t2) 
-    time_s3 = get_lst(lon3,t3) 
+    time_s1 = get_lst(lon1, t1)
+    time_s2 = get_lst(lon2, t2)
+    time_s3 = get_lst(lon3, t3)
     t1 = 0
     t2 = 118.10
     t3 = 237.58
@@ -55,24 +58,23 @@ def find_r(iodset):
     tau = t3-t1
     tau1 = t1-t2
     tau3 = t3-t2
-	#test
+    # test
     time_s1 = 44.506*constants.degtorad
     time_s2 = 45.0*constants.degtorad
     time_s3 = 45.499*constants.degtorad
-   
+
     # Creates the vector pointing to the station
     R1 = get_R(time_s1, lat1, h1)
     R2 = get_R(time_s2, lat2, h2)
     R3 = get_R(time_s3, lat3, h3)
 
-
     # Unit vectors pointing to satellite
     e1 = iodset[0].get_e(lat1, time_s1)
     e2 = iodset[1].get_e(lat2, time_s2)
     e3 = iodset[2].get_e(lat3, time_s3)
-    #print(e1)
-    #print(e2)
-    #print(e3)
+    # print(e1)
+    # print(e2)
+    # print(e3)
 
     # Usefull definitions
     d1 = cross(e2, e3)
@@ -86,8 +88,8 @@ def find_r(iodset):
     D23 = dot(d2, R3)
     D31 = dot(d3, R1)
     D32 = dot(d3, R2)
-    D33 = dot(d3, R3)    
-    D = dot(e3, d3)    
+    D33 = dot(d3, R3)
+    D = dot(e3, d3)
     # Intial guess for n1, n3
     if abs(t3-t1) and abs(t2-t1) > 0.00000001:
         n1 = (t3-t2)/(t3-t1)
@@ -116,17 +118,17 @@ def find_r(iodset):
         r1 = R1+rho1*e1
         r3 = R3+rho3*e3
         r2 = R2+rho2*e2
-        #print(r1)
-        #print(R1)
-        #print(R2)
-        #print(R3)
+        # print(r1)
+        # print(R1)
+        # print(R2)
+        # print(R3)
         # Next guess for n1, n3
         r1crossr3 = sqrt(dot(cross(r1, r3), cross(r1, r3)))
         r2crossr3 = sqrt(dot(cross(r2, r3), cross(r2, r3)))
         r1crossr2 = sqrt(dot(cross(r1, r2), cross(r1, r2)))
         print("===")
        # print(r1)
-        #print(r3)
+        # print(r3)
         print(r1crossr3)
         print(r2crossr3)
         print(float(r2crossr3/r1crossr3))
