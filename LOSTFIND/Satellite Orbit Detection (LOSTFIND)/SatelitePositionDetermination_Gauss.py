@@ -40,10 +40,11 @@ def solveroot(A, B, C):
 ###############################################################
 
 
-def find_r(iodset):
+def find_r(iodset, itmax, epsilon):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite
-    It uses the Gauss method'''
+    It uses the Gauss method. itmax is the max number of iterations
+    and epsilon is the stop condition for the iteration'''
     ###################################
     # Extracting location of station
     script_dir = os.path.dirname(__file__)  # Location of python script
@@ -144,10 +145,10 @@ def find_r(iodset):
     ####################################################################
 
     rho1old = 2*rho1
+    rho2old = 2*rho2
+    rho3old = 2*rho3
     n_iteration = 0
-    itmax = 1000
-    epsilon = 0.001
-    while abs(rho1old-rho1) > epsilon and n_iteration < itmax:
+    while (abs(rho1old-rho1) > epsilon or abs(rho2old-rho2) > epsilon or abs(rho3old-rho3) > epsilon) and n_iteration < itmax:
         r_mag = math.sqrt(np.dot(r2, r2))
         v_mag = math.sqrt(np.dot(v2, v2))
 
@@ -191,5 +192,3 @@ def find_r(iodset):
     r3 = r3*1000
     v2 = v2*1000
     return r1, r3
-
-
