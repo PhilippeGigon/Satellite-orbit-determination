@@ -144,38 +144,46 @@ def find_r(iodset):
     ####################################################################
 
     rho1old = 2*rho1
-    # while abs(rho1old-rho1)>0.001:
-    for i in range(0, 0):
-        # All in km, km/s:
-        # computes norm
-        r_mag = math.sqrt(np.np.dot(r2, r2))
-        v_mag = math.sqrt(np.np.dot(v2, v2))
+    n_iteration = 0
+    itmax = 1000
+    epsilon = 0.001
+    while abs(rho1old-rho1) > epsilon and n_iteration < itmax:
+        r_mag = math.sqrt(np.dot(r2, r2))
+        v_mag = math.sqrt(np.dot(v2, v2))
+
         # Reciprocal of semi major axis
         alpha = 2/r_mag-v_mag**2/mukm
         chi1 = get_chi(tau1, r2, v2)
         chi3 = get_chi(tau3, r2, v2)
-        f1 = 1-chi1**2/r_mag*C(alpha*chi1**2)
-        g1 = tau1-1/math.sqrt(mukm)*chi1**3*S(alpha*chi1**2)
-        f3 = 1-chi3**2/r_mag*C(alpha*chi3**2)
-        g3 = tau3-1/math.sqrt(mukm)*chi3**3*S(alpha*chi3**2)
+        f1prim = 1-chi1**2/r_mag*C(alpha*chi1**2)
+        g1prim = tau1-1/math.sqrt(mukm)*chi1**3*S(alpha*chi1**2)
+        f3prim = 1-chi3**2/r_mag*C(alpha*chi3**2)
+        g3prim = tau3-1/math.sqrt(mukm)*chi3**3*S(alpha*chi3**2)
+        # Average of old and new values
+        f1 = (f1+f1prim)/2
+        f3 = (f3+f3prim)/2
+        g1 = (g1+g1prim)/2
+        g3 = (g3+g3prim)/2
 
         c1 = g3/(f1*g3-f3*g1)
         c3 = -g1/(f1*g3-f3*g1)
+
         # Old values of rho for convergence test
         rho1old = rho1
         rho2old = rho2
         rho3old = rho3
+
         # Updated values of rhoi
         rho1 = 1/D*(-D11+1/c1*D21-c3/c1*D31)
         rho2 = 1/D*(-c1*D12+D22-c3*D32)
         rho3 = 1/D*(-c1/c3*D13+1/c3*D23-D33)
+
         r1 = rho1*e1+R1
         r2 = rho2*e2+R2
         r3 = rho3*e3+R3
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
-    ####################################################################
-    ####################################################################
-    ####################################################################
+
+        n_iteration = n_iteration+1
 
     # Converts back to SI units
     r1 = r1*1000
@@ -183,3 +191,7 @@ def find_r(iodset):
     r3 = r3*1000
     v2 = v2*1000
     return r1, r3
+
+
+IODset = np.array(Create_IODs())
+find_r(IODset)
