@@ -125,12 +125,12 @@ def find_r(iodset):
     r1 = rho1*e1+R1
     r2 = rho2*e2+R2
     r3 = rho3*e3+R3
-
+    r2_norm = math.sqrt(np.dot(r2, r2))
     # Lagrange coeffs
-    f1 = 1-1/2*mu/r2_norm**3*tau1**2
-    g1 = tau1-1/6*mu/r2_norm**3*tau1**3
-    f3 = 1-1/2*mu/r2_norm**3*tau3**2
-    g3 = tau3-1/6*mu/r2_norm**3*tau3**3
+    f1 = 1-1/2*mukm/r2_norm**3*tau1**2
+    g1 = tau1-1/6*mukm/r2_norm**3*tau1**3
+    f3 = 1-1/2*mukm/r2_norm**3*tau3**2
+    g3 = tau3-1/6*mukm/r2_norm**3*tau3**3
 
     # speed at position 2
     v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
