@@ -193,5 +193,3 @@ def find_r(iodset):
     return r1, r3
 
 
-IODset = np.array(Create_IODs())
-find_r(IODset)
