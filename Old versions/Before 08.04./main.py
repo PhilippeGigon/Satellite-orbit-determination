@@ -1,6 +1,6 @@
-import SatelitePositionDetermination_Gauss
+import Gauss_algorithm
 from IOD_class import *
-from TLE_class2 import *
+from TLE_class import *
 import math
 import numpy as np
 
@@ -12,7 +12,7 @@ def main():
     IODset = np.array(Create_IODs())
 
     # Computes two vectors pointing to the satellite with gauss method
-    r1, r2, v2 = SatelitePositionDetermination_Gauss.find_r(IODset, itmax, prec)
+    r1, r2, v2 = Gauss_algorithm.find_r(IODset, itmax, prec)
 
     # Corresponding observation time
     t1 = IODset[0].get_time()

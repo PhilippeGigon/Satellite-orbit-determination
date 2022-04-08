@@ -12,7 +12,7 @@ from IOD_class import *
 
 
 def Ri_Li(iodset):
-    # Extracting location of station
+    '''Extracting location of station'''
     script_dir = os.path.dirname(__file__)  # Location of python script
     rel_path = "LOCATION.txt"  # Name of .txt
     abs_file_path = os.path.join(script_dir, rel_path)
@@ -44,9 +44,10 @@ def Ri_Li(iodset):
     L = [L1, L2, L3]
     return [R, L]
 
+###############################################################
 
 def rv(iodset, n):
-    # Extracting location of station
+    '''Extracting location of station'''
     script_dir = os.path.dirname(__file__)  # Location of python script
     rel_path = "LOCATION.txt"  # Name of .txt
     abs_file_path = os.path.join(script_dir, rel_path)
@@ -78,19 +79,6 @@ def rv(iodset, n):
     t2 = iodset[1].get_time()
     t3 = iodset[2].get_time()
 
-    #######################################################
-    ###################TEST################################
-    #######################################################
-    t1 = 0
-    t2 = 118.10
-    t3 = 237.58
-    R1 = np.array([3489.8, 3430.2, 4078.5])
-    R2 = np.array([3460.1, 3460.1, 4078.5])
-    R3 = np.array([3429.9, 3490.1, 4078.5])
-    L1 = np.array([0.71643, 0.68074, -0.15270])
-    L2 = np.array([0.56897, 0.79531, -0.20917])
-    L3 = np.array([0.41841, 0.87007, -0.26059])
-    #######################################################
 
     if (n == 1):
         t = t1
@@ -164,6 +152,7 @@ def rv(iodset, n):
     v = rhodot*L + rho*Ldot + Rdot[n-1]
     return r, v
 
+###############################################################
 
 def procedure(iodset):
 
@@ -200,6 +189,7 @@ def procedure(iodset):
     # Estimation of the magnitude of r2
     r2 = np.norm(R2) + 10
 
+###############################################################
 
 def fandg(rr1, vv1, delt, fr, gr):
     r, u, p, q, p2, p4, q2, u2 = 0
@@ -244,7 +234,7 @@ def fandg(rr1, vv1, delt, fr, gr):
     return [fr, gr]
 
 # Gaussian elimination
-
+###############################################################
 
 def rref(m, b):
     i, j, k, ROW = 0

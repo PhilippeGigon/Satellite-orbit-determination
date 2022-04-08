@@ -11,7 +11,7 @@ import ephem
 import datetime
 import math
 # Other Files
-from TLE_class2 import *
+from TLE_class import *
 from constants import mu, mukm
 from IOD_class import *
 from StationPositionVector import *
