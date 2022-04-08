@@ -161,6 +161,7 @@ class TLE:
         str_O = "{:8.4F}".format(Omega)
         # eccentricity
         string_e = "{:9.7F}".format(e)
+        print("e: ", e)
         str_e = string_e[2:]
         # argument of perigee
         str_o = "{:8.4F}".format(omega)
