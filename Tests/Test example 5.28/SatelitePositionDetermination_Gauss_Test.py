@@ -19,13 +19,14 @@ from UniversalKeplerEquation import *
 ###############################################################
 
 
-def solveroot(a_, b_, c_):
+def solveroot(A, B, C):
     '''This function solves the root
     of the polynomial x^8+ax^6+bx^3+c=0 which
     corresponds to the norm of r2, it needs to keep only
     the physical solutions (positive and not complex)'''
-    coefs = np.array([1, 0, a_, 0, 0, b_, 0, 0, c_])
+    coefs = np.array([1, 0, A, 0, 0, B, 0, 0, C])
     root = np.roots(coefs)
+    print(root)
     n_roots = 0
     for i in root:
         if (i > 0) and np.isreal(i):
@@ -35,6 +36,7 @@ def solveroot(a_, b_, c_):
         raise ValueError("No root found")
     if n_roots > 1:
         raise ValueError("Multiple roots found")
+    print(candidate)
     return candidate
 ###############################################################
 
@@ -82,21 +84,25 @@ def find_r(iodset):
     #############TEST###########
     ############################
     t1 = 0
-    t2 = 60
-    t3 = 2*60
+    t2 = 5*60
+    t3 = 10*60
     tau = t3-t1
     tau1 = t1-t2
     tau3 = t3-t2
+    ############################
+    #############TEST###########
+    ############################
 
-    R1 = np.array([-1825.96, 3583.66, 4933.54])
-    e1 = np.array([-0.301687, 0.200673, 0.932049])
-
-    R2 = np.array([-1816.3, 3575.63, 4933.54])
-    e2 = np.array([-0.793090, -0.210324, 0.571640])
-
-    R3 = np.array([-1857.25, 3567.54, 4933.54])
-    e3 = np.array([-0.873085, -0.362969, 0.325539])
-
+    ###################################
+    ############################
+    #############TEST###########
+    ############################
+    e1 = np.array([0.8464268, 0, 0.532504])
+    e2 = np.array([0.749290, 0.463023, 0.473470])
+    e3 = np.array([0.529447, 0.777163, 0.340152])
+    R1 = np.array([5582.84, 0, 3073.9])
+    R2 = np.array([5581.5, 122.122, 3073.9])
+    R3 = np.array([5577.5, 244.186, 3073.9])
     ############################
     #############TEST###########
     ############################
@@ -152,7 +158,6 @@ def find_r(iodset):
 
     # speed at position 2
     v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
-
     #####################################
     # Here the initial guess is finished
     # it can be improved with an iteration
@@ -197,9 +202,13 @@ def find_r(iodset):
         r3 = rho3*e3+R3
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
         n_iteration = n_iteration+1
-
     return r2, v2
 
 
 IODset = np.array(Create_IODs())
 [r, v] = find_r(IODset)
+print("r1: ", math.sqrt(np.dot(r, r)), "v1: ", math.sqrt(
+    np.dot(v, v)))
+inputtle = [r*1000, v*1000, 5*60]
+tletest = TLE(inputtle)
+tletest.TLE_format()

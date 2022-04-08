@@ -124,7 +124,6 @@ def find_r(iodset):
 
     # Norm of r2, root of polynomial
     r2_norm = solveroot(a, b, c)
-
     # Computing initial guess of rhoi
     rho1 = 1/D*((6*(D31*tau1/tau3+D21*tau/tau3)*r2_norm**3+mukm*D31 *
                  (tau**2-tau1**2)*tau1/tau3)/(6*r2_norm**3+mukm*(tau**2-tau3**2))-D11)
@@ -155,7 +154,6 @@ def find_r(iodset):
     ######################TEST#############################
     #r2 = np.array([5659.1, 6533.8, 3270.1])
     #v2 = np.array([-3.9080, 5.0573, -2.2222])
-
     ######################TEST#############################
     n_iteration = 0
     itmax = 1000
@@ -191,13 +189,11 @@ def find_r(iodset):
         rho1 = 1/D*(-D11+1/c1*D21-c3/c1*D31)
         rho2 = 1/D*(-c1*D12+D22-c3*D32)
         rho3 = 1/D*(-c1/c3*D13+1/c3*D23-D33)
-        print(rho1, rho2, rho3)
         r1 = rho1*e1+R1
         r2 = rho2*e2+R2
         r3 = rho3*e3+R3
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
         n_iteration = n_iteration+1
-
     # Converts back to SI units
     r1 = r1*1000
     r2 = r2*1000
@@ -209,3 +205,5 @@ def find_r(iodset):
 IODset = np.array(Create_IODs())
 [r, v] = find_r(IODset)
 inputtle = [r, v, 118.10]
+tletest = TLE(inputtle)
+tletest.TLE_format()

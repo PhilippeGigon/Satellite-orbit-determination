@@ -1,12 +1,6 @@
-################################################################
-# Computing the orbital elements from r,v (Gibbs method)
-# according to book: Orbital mechanics for engineering students
-# by Howard Curtis
-###############################################################
 import math
 import numpy as np
 import constants
-###############################################################
 
 
 class TLE:
