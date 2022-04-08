@@ -189,8 +189,7 @@ class IOD:
                 self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
                               15*Ras/36000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
-                DecM = int(Y[2:4])
-                Decd = int(Y[4:6])
+                Decd = int(Y[2:6])
                 self.DecRad = (DecD + Decd/10000) * \
                     constants.degtorad  # Radians                                    
 

@@ -152,7 +152,6 @@ class IOD:
                 Decd = int(Y[2:6])
                 self.DecRad = -(DecD + Decd/10000) * \
                     constants.degtorad  # Radians
-
             if "+" in i:
                 X, Y = i.split("+")
                 RaH = int(X[0:2])
@@ -164,6 +163,7 @@ class IOD:
                 Decm = int(Y[4:6])
                 self.DecRad = (DecD + Decd/10000) * \
                     constants.degtorad  # Radians     
+               
         
         if (int(h[0:1]) == 7):
             self.type_coord = 1
@@ -267,6 +267,7 @@ class IOD:
                 Altd = int(Y[2:6])
                 self.AltRad = (AltD + Altd/10000) * \
                     constants.degtorad  # Radians
+                print('Az',self.AzRad/constants.degtorad,'Alt',self.AltRad/constants.degtorad)
 
 
     def get_e(self, latitude, time):
