@@ -82,12 +82,7 @@ class IOD:
 
         # Measured angles
         # Right ascention declination
-        if (int(h[0:1])==1 or int(h[0:1])==2 or int(h[0:1])==3 or int(h[0:1])==7):
-            self.type = 1
-        else:
-            self.type = 0
-
-        if (int(h[0:1])==1):
+        if "-" in i:
             X, Y = i.split("-")
             RaH = int(X[0:2])
             RaM = int(X[2:4])
@@ -98,145 +93,31 @@ class IOD:
             DecD = int(Y[0:2])
             DecM = int(Y[2:4])
             DecS = int(Y[4:6])
-            if "-" in i:
-                 DecRad = -(DecD + DecM/60+DecS/3600) * \
-                     constants.degtorad  # Radians
-            else: 
-                self.DecRad = (DecD + DecM/60+DecS/3600) * \
-                     constants.degtorad  # Radians
+            self.DecRad = -(DecD + DecM/60+DecS/3600) * \
+                constants.degtorad  # Radians
+            #print(self.RaRad/constants.degtorad)
+            #print(self.DecRad/constants.degtorad)
 
-        if (int(h[0:1])==2):
-            X, Y = i.split("-")
-            RaH = int(X[0:2])
-            RaM = int(X[2:4])
-            Ram = int(X[4:7])
-            self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/60000)*constants.degtorad  # Radians
-            DecD = int(Y[0:2])
-            DecM = int(Y[2:4])
-            Decm = int(Y[4:6])
-            if "-" in i:
-                self.DecRad = -(DecD + DecM/60+Decm/6000) * \
-                     constants.degtorad  # Radians
-            else:
-                self.DecRad = (DecD + DecM/60+Decm/6000) * \
-                     constants.degtorad  # Radians
-
-
-        if (int(h[0:1])==3):
-            X, Y = i.split("-")
-            RaH = int(X[0:2])
-            RaM = int(X[2:4])
-            Ram = int(X[4:7])
-            self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/60000)*constants.degtorad  # Radians
-            DecD = int(Y[0:2])
-            Decd = int(Y[2:6])
-            if "-" in i:
-                self.DecRad = -(DecD + Decd/1000) * \
-                     constants.degtorad  # Radians
-            else:
-                self.DecRad = (DecD + Decd/1000) * \
-                     constants.degtorad  # Radians
-
-        if (int(h[0:1])==7):
-            X, Y = i.split("-")
+        if "+" in i:
+            X, Y = i.split("+")
             RaH = int(X[0:2])
             RaM = int(X[2:4])
             RaS = int(X[4:6])
             Ras = int(X[6:7])
-            self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
-                          15*Ras/36000)*constants.degtorad  # Radians
+            self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
+                          Ras/36000)*constants.degtorad  # Radians
             DecD = int(Y[0:2])
-            Decd = int(Y[2:6])
-            if "-" in i:
-                 self.DecRad = -(DecD + Decd/1000) * \
-                         constants.degtorad  # Radians
-            else:
-                 self.DecRad = (DecD + Decd/1000) * \
-                         constants.degtorad  # Radians
-
-        if (int(h[0:1])==4):
-            X, Y = i.split("-")
-            AzD = int(X[0:3])
-            AzM = int(X[3:5])
-            AzS = int(X[5:7])
-            self.AzRad = (AzD+AzM/60+AzS/3600)*constants.degtorad  # Radians
-            ElD = int(Y[0:2])
-            ElM = int(Y[2:4])
-            ElS = int(Y[4:6])
-            if "-" in i:
-                 self.ElRad = -(ElD + ElM/60+ElS/3600) * \
-                         constants.degtorad  # Radians
-            else:
-                 self.ElRad = (ElD + ElM/60+ElS/3600) * \
-                         constants.degtorad  # Radians
-
-        if (int(h[0:1])==5):
-            X, Y = i.split("-")
-            AzD = int(X[0:3])
-            AzM = int(X[3:5])
-            Azm = int(X[5:7])
-            self.AzRad = (AzD+AzM/60+Azm/6000)*constants.degtorad  # Radians
-            ElD = int(Y[0:2])
-            ElM = int(Y[2:4])
-            Elm = int(Y[4:6])
-            if "-" in i:
-                 self.ElRad = -(ElD + ElM/60+Elm/6000) * \
-                         constants.degtorad  # Radians
-            else:
-                 self.ElRad = (ElD + ElM/60+Elm/6000) * \
-                         constants.degtorad  # Radians
-
-        if (int(h[0:1])==6):
-            X, Y = i.split("-")
-            AzD = int(X[0:3])
-            Azd = int(X[3:7])
-            self.AzRad = (AzD+Azd/10000)*constants.degtorad  # Radians
-            ElD = int(Y[0:2])
-            Eld = int(Y[2:6])
-            if "-" in i:
-                 self.ElRad = -(ElD + Eld/1000) * \
-                         constants.degtorad  # Radians
-            else:
-                 self.ElRad = (ElD +Eld/10000) * \
-                         constants.degtorad  # Radians
-        #if "-" in i:
-        #    X, Y = i.split("-")
-        #    RaH = int(X[0:2])
-        #    RaM = int(X[2:4])
-        #   RaS = int(X[4:6])
-        #  Ras = int(X[6:7])
-        #    self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
-        #                  15*Ras/36000)*constants.degtorad  # Radians
-        #    DecD = int(Y[0:2])
-        #    DecM = int(Y[2:4])
-        #    DecS = int(Y[4:6])
-        #    self.DecRad = -(DecD + DecM/60+DecS/3600) * \
-        #        constants.degtorad  # Radians
-            #print(self.RaRad/constants.degtorad)
-            #print(self.DecRad/constants.degtorad)
-
-        #if "+" in i:
-        #    X, Y = i.split("+")
-        #    RaH = int(X[0:2])
-        #    RaM = int(X[2:4])
-        #    RaS = int(X[4:6])
-        #    Ras = int(X[6:7])
-        #    self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-        #                  Ras/36000)*constants.degtorad  # Radians
-        #    DecD = int(Y[0:2])
-        #    DecM = int(Y[2:4])
-        #    DecS = int(Y[4:6])
-        #    self.DecRad = (DecD + DecM/60+DecS/3600) * \
-        #        constants.degtorad  # Radians
+            DecM = int(Y[2:4])
+            DecS = int(Y[4:6])
+            self.DecRad = (DecD + DecM/60+DecS/3600) * \
+                constants.degtorad  # Radians
 
     def get_e(self, latitude, time):
         '''returns the unit vector pointing from telescope towards satellite'''
-        if(self.type == 1):
-            alt = get_alt(self.DecRad,self.RaRad,latitude,time)
-            az = get_az(alt,self.DecRad,self.RaRad,latitude,time)
-        else:
-            alt = self.ElRad
-            az = self.AzRad
+        ra = self.RaRad
+        dec = self.DecRad
+        alt = get_alt(dec,ra,latitude,time)
+        az = get_az(alt,dec,ra,latitude,time)
         e = np.array([math.cos(alt)*math.sin(az), math.cos(alt)*math.cos(az), math.sin(alt)]) 
         Rot = np.array([[-math.sin(time), -math.sin(latitude)*math.cos(time), math.cos(latitude)*math.cos(time)], [math.cos(time), -math.sin(latitude)*math.sin(time), math.cos(latitude)*math.sin(time)], [0, math.cos(latitude), math.sin(latitude)]])
         eloc = Rot.dot(e)
@@ -244,11 +125,6 @@ class IOD:
 
     def get_time(self):
         return self.unix_epochtime
- 
-    #def assign_az_el(ra_g,dec_g):
-    #    self.ElRad = el;
-    #    self.AzRad = az;
- 
 
     def printIOD(self):
         print("Ra: ", self.RaRad, "Dec: ", self.DecRad)
