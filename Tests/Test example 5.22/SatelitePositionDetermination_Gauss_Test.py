@@ -70,21 +70,7 @@ def find_r(iodset):
     time_s1 = get_lst(lon1, t1)
     time_s2 = get_lst(lon2, t2)
     time_s3 = get_lst(lon3, t3)
-    ############################
-    #############TEST###########
-    ############################
-    t1 = 0
-    t2 = 118.10
-    t3 = 237.58
-    time_s1 = 44.506*constants.degtorad
-    time_s2 = 45.0*constants.degtorad
-    time_s3 = 45.499*constants.degtorad
-    ############################
-    #############TEST###########
-    ############################
-    tau = t3-t1
-    tau1 = t1-t2
-    tau3 = t3-t2
+
     ###################################
     # Creates the vector pointing to the station in km
     R1 = get_R(time_s1, lat1, h1)
@@ -94,6 +80,19 @@ def find_r(iodset):
     e1 = iodset[0].get_e(lat1, time_s1)
     e2 = iodset[1].get_e(lat2, time_s2)
     e3 = iodset[2].get_e(lat3, time_s3)
+    ############################
+    #############TEST###########
+    ############################
+    t1 = 0
+    t2 = 6*60
+    t3 = 10*60
+    tau = t3-t1
+    tau1 = t1-t2
+    tau3 = t3-t2
+    ############################
+    #############TEST###########
+    ############################
+
     ###################################
     # Usefull definitions
     p1 = np.cross(e2, e3)
@@ -133,7 +132,18 @@ def find_r(iodset):
 
     rho3 = 1/D*((6*(D13*tau3/tau1-D23*tau/tau1)*r2_norm**3+mukm*D13 *
                  (tau**2-tau3**2)*tau3/tau1)/(6*r2_norm**3+mukm*(tau**2-tau3**2))-D33)
-
+    ############################
+    #############TEST###########
+    ############################
+    e1 = np.array([0.8464268, 0, 0.532504])
+    e2 = np.array([0.749290, 0.463023, 0.473470])
+    e3 = np.array([0.529447, 0.777163, 0.340152])
+    R1 = np.array([5582.84, 0, 3073.9])
+    R2 = np.array([5581.5, 122.122, 3073.9])
+    R3 = np.array([5577.5, 244.186, 3073.9])
+    ############################
+    #############TEST###########
+    ############################
     # Vectors pointing to satellite
     r1 = rho1*e1+R1
     r2 = rho2*e2+R2
@@ -147,6 +157,7 @@ def find_r(iodset):
 
     # speed at position 2
     v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
+    print(math.sqrt(np.dot(r2, r2)), math.sqrt(np.dot(v2, v2)))
     #####################################
     # Here the initial guess is finished
     # it can be improved with an iteration
@@ -191,7 +202,6 @@ def find_r(iodset):
         rho1 = 1/D*(-D11+1/c1*D21-c3/c1*D31)
         rho2 = 1/D*(-c1*D12+D22-c3*D32)
         rho3 = 1/D*(-c1/c3*D13+1/c3*D23-D33)
-        print(rho1, rho2, rho3)
         r1 = rho1*e1+R1
         r2 = rho2*e2+R2
         r3 = rho3*e3+R3
@@ -208,4 +218,3 @@ def find_r(iodset):
 
 IODset = np.array(Create_IODs())
 [r, v] = find_r(IODset)
-inputtle = [r, v, 118.10]
