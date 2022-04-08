@@ -70,9 +70,9 @@ def find_r(iodset):
     e1 = iodset[0].get_e(lat1, time_s1)
     e2 = iodset[1].get_e(lat2, time_s2)
     e3 = iodset[2].get_e(lat3, time_s3)
-    #print(e1)
-    #print(e2)
-    #print(e3)
+    print(e1)
+    print(e2)
+    print(e3)
 
     # Usefull definitions
     d1 = cross(e2, e3)
