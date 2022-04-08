@@ -1,14 +1,8 @@
-################################################################
-# Computing the vector pointing from earth center to the
-# telescope position needed for Gauss_algorithm.py according to book:
-# Orbital mechanics for engineering students by Howard Curtis
-###############################################################
 import datetime
 import math
 import numpy as np
 import ephem
 import constants
-###############################################################
 
 
 def get_R(time, lat, H):

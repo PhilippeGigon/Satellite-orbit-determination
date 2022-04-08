@@ -36,6 +36,15 @@ def rv(iodset, n):
     time_s1 = get_lst(lon1, t1)
     time_s2 = get_lst(lon2, t2)
     time_s3 = get_lst(lon3, t3)
+    ############################
+    #############TEST###########
+    ############################
+    time_s1 = 150.000*constants.degtorad
+    time_s2 = 151.253*constants.degtorad
+    time_s3 = 152.507*constants.degtorad
+    ############################
+    #############TEST###########
+    ############################
 
     # Creates the vector pointing to the station
     R1 = np.array(get_R(time_s1, lat1, h1))
@@ -98,7 +107,6 @@ def rv(iodset, n):
     ri = 0
     while (abs(rn - ri) > 0.001):
         ri = rn
-        print(ri)
         r6 = ri**6
         r3 = ri**3
         rn = np.power(C1*r6 + C2*r3 + C3, (1./8.))
@@ -124,3 +132,4 @@ def rv(iodset, n):
 
 IODset = np.array(Create_IODs())
 [r, v] = rv(IODset, 2)
+print(math.sqrt(np.dot(r, r)))

@@ -282,6 +282,7 @@ class IOD:
         Rot = np.array([[-math.sin(time), -math.sin(latitude)*math.cos(time), math.cos(latitude)*math.cos(time)], [math.cos(time), -
                        math.sin(latitude)*math.sin(time), math.cos(latitude)*math.sin(time)], [0, math.cos(latitude), math.sin(latitude)]])
         eloc = Rot.dot(e)
+        print('yo',eloc)
         return eloc
 
     def get_time(self):

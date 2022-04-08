@@ -1,8 +1,3 @@
-################################################################
-# Solving the universal Kepler equation according to book:
-# Orbital mechanics for engineering students by Howard Curtis
-# needed for Gauss_algorithm.py
-################################################################
 import math
 import numpy as np
 from constants import mukm
@@ -18,8 +13,6 @@ def S(z):
     if z == 0:
         return 1.0/6
 
-###############################################################
-
 
 def C(z):
     if z > 0:
@@ -30,8 +23,6 @@ def C(z):
         return Cz
     if z == 0:
         return 1.0/2
-
-###############################################################
 
 
 def get_chi(t, r, v):
