@@ -94,6 +94,12 @@ def find_r(iodset):
     e1 = iodset[0].get_e(lat1, time_s1)
     e2 = iodset[1].get_e(lat2, time_s2)
     e3 = iodset[2].get_e(lat3, time_s3)
+    #R1 = np.array([3489.8, 3430.2,4078.5])
+    #R2 =np.array([3460.1, 3460.1,4078.5])
+    #R3 =np.array([3429.9, 3490.1,4078.5])
+    #e1 = np.array([0.71643, 0.68074,-0.15270])
+    #e2 =np.array([0.56897, 0.79531,-0.20917])
+    #e3 =np.array([0.4184, 0.87007,0.26059])
     ###################################
     # Usefull definitions
     p1 = np.cross(e2, e3)
@@ -150,7 +156,7 @@ def find_r(iodset):
     # Here the initial guess is finished
     # it can be improved with an iteration
     #####################################
-
+    print('r2 :',math.sqrt(np.dot(r2,r2)),'v2 :',math.sqrt(np.dot(v2,v2)))
     ######################TEST#############################
     #r2 = np.array([5659.1, 6533.8, 3270.1])
     #v2 = np.array([-3.9080, 5.0573, -2.2222])

@@ -53,7 +53,6 @@ def find_r(iodset):
     Station_Coordinates = Data.readlines()
     Data.close()
     lat1 = float(Station_Coordinates[0])*(np.pi/180)
-    print('lat',lat1/(np.pi/180))
     lon1 = float(Station_Coordinates[1])*(np.pi/180)
     h1 = float(Station_Coordinates[2])
     lat2 = float(Station_Coordinates[3])*(np.pi/180)
@@ -73,9 +72,9 @@ def find_r(iodset):
     ############################
     #############TEST###########
     ############################
-    time_s1 = 60.000*constants.degtorad
-    time_s2 = 60.5014*constants.degtorad
-    time_s3 = 61.0027*constants.degtorad
+    time_s1 = 150.000*constants.degtorad
+    time_s2 = 151.253*constants.degtorad
+    time_s3 = 152.507*constants.degtorad
     ############################
     #############TEST###########
     ############################
@@ -148,7 +147,7 @@ def find_r(iodset):
     # Here the initial guess is finished
     # it can be improved with an iteration
     #####################################
-
+    print('r2 :',math.sqrt(np.dot(r2,r2)),'v2 :',math.sqrt(np.dot(v2,v2)))
     ######################TEST#############################
     #r2 = np.array([5659.1, 6533.8, 3270.1])
     #v2 = np.array([-3.9080, 5.0573, -2.2222])

@@ -40,10 +40,11 @@ def solveroot(A, B, C):
 ###############################################################
 
 
-def find_r(iodset):
+def find_r(iodset, itmax, epsilon):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite
-    It uses the Gauss method'''
+    It uses the Gauss method. itmax is the max number of iterations
+    and epsilon is the stop condition for the iteration'''
     ###################################
     # Extracting location of station
     script_dir = os.path.dirname(__file__)  # Location of python script
@@ -53,7 +54,6 @@ def find_r(iodset):
     Station_Coordinates = Data.readlines()
     Data.close()
     lat1 = float(Station_Coordinates[0])*(np.pi/180)
-    print('lat',lat1/(np.pi/180))
     lon1 = float(Station_Coordinates[1])*(np.pi/180)
     h1 = float(Station_Coordinates[2])
     lat2 = float(Station_Coordinates[3])*(np.pi/180)
@@ -70,15 +70,6 @@ def find_r(iodset):
     time_s1 = get_lst(lon1, t1)
     time_s2 = get_lst(lon2, t2)
     time_s3 = get_lst(lon3, t3)
-    ############################
-    #############TEST###########
-    ############################
-    time_s1 = 60.000*constants.degtorad
-    time_s2 = 60.5014*constants.degtorad
-    time_s3 = 61.0027*constants.degtorad
-    ############################
-    #############TEST###########
-    ############################
     tau = t3-t1
     tau1 = t1-t2
     tau3 = t3-t2
@@ -149,16 +140,15 @@ def find_r(iodset):
     # it can be improved with an iteration
     #####################################
 
-    ######################TEST#############################
-    #r2 = np.array([5659.1, 6533.8, 3270.1])
-    #v2 = np.array([-3.9080, 5.0573, -2.2222])
+    ####################################################################
+    ########################Iterative part To Do########################
+    ####################################################################
 
-    ######################TEST#############################
-    n_iteration = 0
-    itmax = 1000
-    epsilon = 0.00001
     rho1old = 2*rho1
-    while abs(rho1old-rho1) > epsilon and n_iteration < itmax:
+    rho2old = 2*rho2
+    rho3old = 2*rho3
+    n_iteration = 0
+    while (abs(rho1old-rho1) > epsilon or abs(rho2old-rho2) > epsilon or abs(rho3old-rho3) > epsilon) and n_iteration < itmax:
         r_mag = math.sqrt(np.dot(r2, r2))
         v_mag = math.sqrt(np.dot(v2, v2))
 
@@ -193,7 +183,7 @@ def find_r(iodset):
         r2 = rho2*e2+R2
         r3 = rho3*e3+R3
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
-        print('r2 :',math.sqrt(np.dot(r2,r2)),'v2 :',math.sqrt(np.dot(v2,v2)))
+
         n_iteration = n_iteration+1
 
     # Converts back to SI units
@@ -201,9 +191,4 @@ def find_r(iodset):
     r2 = r2*1000
     r3 = r3*1000
     v2 = v2*1000
-
-    return r1, r3
-
-
-IODset = np.array(Create_IODs())
-find_r(IODset)
+    return r1, r3, v2

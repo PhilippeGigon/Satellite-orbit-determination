@@ -152,7 +152,6 @@ class IOD:
                 Decd = int(Y[2:6])
                 self.DecRad = -(DecD + Decd/10000) * \
                     constants.degtorad  # Radians
-
             if "+" in i:
                 X, Y = i.split("+")
                 RaH = int(X[0:2])
@@ -164,6 +163,7 @@ class IOD:
                 Decm = int(Y[4:6])
                 self.DecRad = (DecD + Decd/10000) * \
                     constants.degtorad  # Radians     
+               
         
         if (int(h[0:1]) == 7):
             self.type_coord = 1
@@ -189,10 +189,10 @@ class IOD:
                 self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
                               15*Ras/36000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
-                DecM = int(Y[2:4])
-                Decd = int(Y[4:6])
+                Decd = int(Y[2:6])
                 self.DecRad = (DecD + Decd/10000) * \
-                    constants.degtorad  # Radians                                    
+                    constants.degtorad  # Radians
+                print('Rad',self.RaRad/constants.degtorad,'Dec',self.DecRad/constants.degtorad)                                    
 
         if (int(h[0:1]) == 4):
             self.type_coord = 0
@@ -267,6 +267,7 @@ class IOD:
                 Altd = int(Y[2:6])
                 self.AltRad = (AltD + Altd/10000) * \
                     constants.degtorad  # Radians
+               # print('Az',self.AzRad/constants.degtorad,'Alt',self.AltRad/constants.degtorad)
 
 
     def get_e(self, latitude, time):
@@ -282,7 +283,6 @@ class IOD:
         Rot = np.array([[-math.sin(time), -math.sin(latitude)*math.cos(time), math.cos(latitude)*math.cos(time)], [math.cos(time), -
                        math.sin(latitude)*math.sin(time), math.cos(latitude)*math.sin(time)], [0, math.cos(latitude), math.sin(latitude)]])
         eloc = Rot.dot(e)
-        print('yo',eloc)
         return eloc
 
     def get_time(self):
