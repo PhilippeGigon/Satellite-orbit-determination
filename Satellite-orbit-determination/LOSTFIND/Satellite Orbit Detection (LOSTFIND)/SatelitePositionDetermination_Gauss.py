@@ -191,4 +191,4 @@ def find_r(iodset, itmax, epsilon):
     r2 = r2*1000
     r3 = r3*1000
     v2 = v2*1000
-    return r1, r3, v2
+    return r2, v2

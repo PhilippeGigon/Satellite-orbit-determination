@@ -11,6 +11,7 @@ import ephem
 import datetime
 import math
 # Other Files
+from TLE_class2 import *
 from constants import mu, mukm
 from IOD_class import *
 from StationPositionVector import *
@@ -190,12 +191,10 @@ def find_r(iodset):
         rho1 = 1/D*(-D11+1/c1*D21-c3/c1*D31)
         rho2 = 1/D*(-c1*D12+D22-c3*D32)
         rho3 = 1/D*(-c1/c3*D13+1/c3*D23-D33)
-
         r1 = rho1*e1+R1
         r2 = rho2*e2+R2
         r3 = rho3*e3+R3
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
-        print(r2, v2)
         n_iteration = n_iteration+1
 
     # Converts back to SI units
@@ -203,8 +202,11 @@ def find_r(iodset):
     r2 = r2*1000
     r3 = r3*1000
     v2 = v2*1000
-    return r1, r3
+    return r2, v2
 
 
 IODset = np.array(Create_IODs())
-find_r(IODset)
+[r, v] = find_r(IODset)
+inputtle = [r, v, 118.10]
+testle = TLE(inputtle)
+testle.TLE_format()
