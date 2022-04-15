@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 
 env_filename = os.getenv('ZWO_ASI_LIB')
 
-parser = argparse.ArgumentParser(description='Process and save images from a camera')
+parser = argparse.ArgumentParser(
+    description='Process and save images from a camera')
 parser.add_argument('filename',
                     nargs='?',
                     help='SDK library filename')
