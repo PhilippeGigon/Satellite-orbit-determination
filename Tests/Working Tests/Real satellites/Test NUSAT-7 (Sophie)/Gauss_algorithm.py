@@ -185,7 +185,6 @@ def find_r(iodset, itmax, epsilon):
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
 
         n_iteration = n_iteration+1
-
     # Converts back to SI units
     r1 = r1
     r2 = r2

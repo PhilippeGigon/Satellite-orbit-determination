@@ -54,7 +54,7 @@ class TLE:
         nxn = N[0]/np.linalg.norm(N)
         Omega = self.rad2deg(np.arccos(nxn))
         if N[1] < 0:
-            Omega = 360 - Omega
+            Omega = abs(360 - Omega)
 
         # eccentricity - old variant
         #ev = 1/constants.mu * ((vn**2 - constants.mu/rn)*self.r - rn*vr*self.v)

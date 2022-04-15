@@ -1,1 +1,2 @@
-Website with Zarya:  https://www.orbtrack.org/#/?satName=ISS%20(ZARYA)
+Website with IOD's and TLE's:  https://www.orbtrack.org/#/?satName=ISS%20(ZARYA)
+Earth radius at lattitude:  https://rechneronline.de/earth-radius/
