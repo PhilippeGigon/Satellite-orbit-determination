@@ -50,7 +50,7 @@ def get_points(rho, theta):
     y2 = int(y0 - 10000 * (a))
     return (x1,y1),(x2,y2)
 
-def position(input,filelines):
+def position(input, filelines):
     #   internal parameters
     threshold = 0.075 # experimental parameter
     #   get parameters
@@ -119,10 +119,14 @@ def position(input,filelines):
 
             #   trace contains points in the trace
             
-            # get begins and ends of traces
-            Beginnings.append(trace[0])
-            Endings.append(trace[-1])
+            # get beginnings and endings of trace
+            beg = (int(trace[0][0]), int(trace[0][1]))
+            end = (int(trace[-1][0]), int(trace[-1][1]))
 
+            Beginnings.append(beg)
+            Endings.append(end)
+
+            # get middles of trace
             x_compo = []
             y_compo = []
             for ind in range(0, len(trace)):
@@ -142,7 +146,6 @@ def position(input,filelines):
             Middles.append(middle)
             Traces.append(trace)
 
-    
     return Beginnings, Middles, Endings, Traces
 
 def time_from_str_to_datetime(date):
@@ -156,11 +159,21 @@ def time_from_datetime_to_str(t):
     date=date[:-3]
     return date
 
-def time_middle(date,timeexpos):
+def time_beginning(date):
+    t = time_from_str_to_datetime(date)
+    tnew = time_from_datetime_to_str(t)
+    return tnew
+
+def time_middle(date, timeexpos):
     #date=string YYYYMMDDHHMMSSsss, timeexpos in seconds
-    t=time_from_str_to_datetime(date)
-    delta=timedelta(seconds=timeexpos/2)
-    tnew=t+delta
-    tmid=time_from_datetime_to_str(tnew)
+    t = time_from_str_to_datetime(date)
+    delta = timedelta(seconds = timeexpos/2)
+    tnew = t + delta
+    tmid = time_from_datetime_to_str(tnew)
     return tmid
 
+def time_ending(date, timeexpos):
+    t = time_from_str_to_datetime(date)
+    delta = timedelta(seconds = timeexpos)
+    tnew = time_from_datetime_to_str(t + delta)
+    return tnew

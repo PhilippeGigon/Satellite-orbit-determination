@@ -3,10 +3,10 @@ from utils.read_param import *
 
 def main(args):
 
-    inputname, outputname, agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize=read_param(args.param)
+    inputname, outputname, agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize = read_param(args.param)
 
-    Mx1=342
-    My1=594
+    Mx1 = 342
+    My1 = 594
     Mx2 = 517
     My2 = 329
     Mx3 = 655
@@ -14,7 +14,7 @@ def main(args):
 
     datereal='2021041621'
 
-    t=time_middle(date,texpos)
+    t = time_middle(date, texpos)
 
 
 

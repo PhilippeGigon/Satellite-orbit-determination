@@ -30,10 +30,10 @@ def analyse_pic_from_folder(args):
     img_times = read_img_times('param_img.txt')
 
     for name in img_names:
-        print('Traitement de l\'image ' + name)
-        outputname=name[:-4]+'_output.jpg'
+        print('Image treating ' + name)
+        outputname = name[:-4]+'_output.jpg'
         try:
-            process_one_img(args,name,outputname)
+            process_one_img(args, name, outputname)
         except:
-            print('Erreur dans le traitement de l\'image ' + name)
+            print('Error in the image treating ' + name)
             pass

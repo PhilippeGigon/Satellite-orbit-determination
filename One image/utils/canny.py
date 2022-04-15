@@ -83,8 +83,8 @@ class cannyEdgeDetector:
 
     def threshold(self, img):
 
-        highThreshold = img.max() * self.highThreshold;
-        lowThreshold = highThreshold * self.lowThreshold;
+        highThreshold = img.max() * self.highThreshold
+        lowThreshold = highThreshold * self.lowThreshold
 
         M, N = img.shape
         res = np.zeros((M,N), dtype=np.int32)

@@ -8,38 +8,21 @@ from utils.mosaic import *
 from utils.img_processing import process_block
 
 
-def houghfull(args,inputname,outputname): #sappelait main avant
-    print('passed 1')
+def houghfull(args, inputname, outputname): 
     DATAPATH = './Processed/Lines/lines'
     global_start = time.time()
-    raw_img = get_raw_image(inputname) # converti en array
+    raw_img = get_raw_image(inputname) # convertion to array
+
+    filename = DATAPATH + outputname[:-4] + '.npy' # name the output file
+    dict_lines = process_block((raw_img, args.hough, filename, args.load_lines, args.save_lines)) # process the image
+    
     global_end = time.time()
     seconds = (global_end - global_start)
-    if seconds > 10:
-        print('t1 > 10s: Error')
-        return
-    filename = DATAPATH + outputname[:-4] + '.npy' # nomme le fichier de sortie
-    global_end = time.time()
-    seconds = (global_end - global_start)
-    if seconds > 10:
-        print('t2 > 10s: Error')
-        return
-    dict_lines = process_block((raw_img, args.hough, filename, args.load_lines, args.save_lines)) # process l'image
-    global_end = time.time()
-    seconds = (global_end - global_start)
-    if seconds > 10:
-        print('t3 > 10s: Error')
-        return
-    global_end = time.time()
-    seconds = (global_end - global_start)
-    if seconds > 10:
-        print('t4 > 10s: Error')
-        return
     #print('... Ending Full Processing after %d min %d sec' % (seconds // 60, seconds % 60))
 
     #f, axes = plt.subplots(1,1)
     DATAPATH2 = './Processed/ImgLines/'
-    outputname2 = DATAPATH2+outputname
+    outputname2 = DATAPATH2 + outputname
     _, final, crop_img = dict_lines
     im = Image.fromarray((crop_img).astype(np.uint8))
     im.save(outputname2)

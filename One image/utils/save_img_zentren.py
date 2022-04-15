@@ -2,14 +2,15 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 
-def save_img_zentren(inputname2, outputname, Middles,Sets):
-
+def save_img_zentren(inputname2, outputname, Beginnings, Middles, Endings, Sets):
     palette = [(255, 0, 0), (0, 255, 0), (255, 255, 0), (255, 0, 255),
                (0, 255, 255)]  # red, green, yellow, majenta, cyan
 
-    DATAPATH1='./Processed/Middles/'
-    DATAPATH2='./Processed/Sets/'
-    DATAPATH3='./Processed/ImgCenter/'
+    DATAPATH1b = './Processed/Beginnings/'
+    DATAPATH1m = './Processed/Middles/'
+    DATAPATH1e = './Processed/Endings/'
+    DATAPATH2 = './Processed/Sets/'
+    DATAPATH3 = './Processed/ImgCenter/'
 
     imlines = Image.open(inputname2)
     imlines = np.asarray(imlines)
@@ -19,15 +20,21 @@ def save_img_zentren(inputname2, outputname, Middles,Sets):
     h, w = imlines.shape
     new = np.zeros((h, w, 3)).astype(int) + imlines.reshape(h, w, 1).astype(int)
 
-    N=len(Middles)
-    for i in range(0,N):
-        middle=Middles[i]
-        set=Sets[i]
-        px=middle[0]
-        py=middle[1]
+    N = len(Middles)
+    for i in range(0, N):
+        beginning = Beginnings[i]
+        middle = Middles[i]
+        ending = Endings[i]
+        set = Sets[i]
+        pbx = beginning[0]
+        pby = beginning[1]
+        pmx = middle[0]
+        pmy = middle[1]
+        pex = ending[0]
+        pey = ending[1]
 
-        b=2
-        b2=4
+        b = 2
+        b2 = 4
 
 
         length = len(set)
@@ -43,8 +50,10 @@ def save_img_zentren(inputname2, outputname, Middles,Sets):
 
         for i in range(-b2, b2):
             for j in range(-b2, b2):
-                if (px + i>=0) and (px + i<w) and(py + i>=0) and (py + i<h):
-                    new[px + i, py + j] = palette[2]
+                if (pmx + i>=0) and (pmx + i<w) and(pmy + i>=0) and (pmy + i<h):
+                    new[pbx + i, pby + j] = palette[2]
+                    new[pmx + i, pmy + j] = palette[2]
+                    new[pex + i, pey + j] = palette[2]
 
 
 
@@ -54,5 +63,7 @@ def save_img_zentren(inputname2, outputname, Middles,Sets):
     im = Image.fromarray((new).astype(np.uint8))
     im.save(filenamepoints)
 
-    np.save( DATAPATH1+outputname[:-4]+ '_Middles', Middles)
-    np.save(DATAPATH2+outputname[:-4]+ '_Sets', Sets)
+    np.save(DATAPATH1b + outputname[:-4] + '_Beginnings', Beginnings)
+    np.save( DATAPATH1m + outputname[:-4] + '_Middles', Middles)
+    np.save(DATAPATH1e + outputname[:-4] + '_Endings', Endings)
+    np.save(DATAPATH2 + outputname[:-4]+ '_Sets', Sets)

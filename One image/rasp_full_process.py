@@ -10,28 +10,26 @@ from utils.save_img_zentren import *
 import matplotlib.image as mpimg
 
 
-def process_one_img(args, inputname,outputname):
+def process_one_img(args, inputname, outputname):
 
     #---------Lecture Parametres--------------------------
 
-   # agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize=read_param("parametres.txt")
+    # agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize=read_param("parametres.txt")
 
     # --------Hough_full_process---------------------------
-    houghfull(args, inputname,outputname)
+    houghfull(args, inputname, outputname)
 
     #----------Position_Sat-------------------------------------
     DATAPATH = './Processed/Lines/lines'
     filenamelines = DATAPATH + outputname[:-4] + 'final.npy'
-    inputname2='./Processed/ImgCompressed/'+inputname[:-4]+'compressed.jpg'
-    Beginnings, Middles, Endings, Sets = position(inputname2,filenamelines)
-    print('Beginnings: ', Beginnings)
-    print('Middles: ', Middles)
-    print('Endings: ', Endings)
-    print('coucou')
+    inputname2 = './Processed/ImgCompressed/' + inputname[:-4]+'compressed.jpg'
+    Beginnings, Middles, Endings, Sets = position(inputname2, filenamelines)
+    #print('Beginnings: ', Beginnings)
+    #print('Middles: ', Middles)
+    #print('Endings: ', Endings)
 
     #----------Save_Image_with_lines+points----------------------
-
-    save_img_zentren(inputname2, outputname, Middles, Sets)
+    save_img_zentren(inputname2, outputname, Beginnings, Middles, Endings, Sets)
 
     '''
     #----------Time---------------------------------------------

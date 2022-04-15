@@ -4,10 +4,10 @@ from datetime import datetime
 #   Contains functions to create param_img from the name of the folder containing all the images
 
 def create_param_img(time, foldername): #time=real time ?
-    param_img = open("param_img.txt","w+")
-    #filenames = os.listdir(foldername)
-    foldername = '../TEST'  #
-    filenames = [f for f in os.listdir(foldername) if f.endswith('.jpg')]
+    '''Creates the file param_img.txt'''
+    param_img = open("param_img.txt", "w+")
+    foldername_comp = '../' + foldername  #
+    filenames = [f for f in os.listdir(foldername_comp) if f.endswith('.jpg')]
     rasp_times = []
     for filename in  filenames:
         #if filename != "parametres.txt" and filename != "param_img.txt":

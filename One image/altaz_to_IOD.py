@@ -1,7 +1,7 @@
 import math
 import os
 
-def pixelscale (pixelsize=5.97, focal=35):
+def pixelscale (pixelsize = 5.97, focal = 35):
     # computes the pixelscale i.e. the angular width and height of a pixel
     # arguments : pixelsize: in microns, focal:  telescope focal length in mm
     # outputs : pixelscale in arcseconds
@@ -14,19 +14,20 @@ def positionAZEL (pixelx, pixely, anglevert, anglehoriz, boussole, pixscale):
     # anglevert, anglehoriz : radians, angles d'inclinaison de la camera
     # boussole : radians, angle entre le nord et l'orientation de la camera
     # pixscale : en arcsec
-    h=anglevert*206265+(pixely*math.cos(anglehoriz)-pixelx*math.sin(anglehoriz))*pixscale
-    A=boussole*206265+(pixelx*math.cos(anglehoriz)+pixely*math.sin(anglehoriz))*pixscale
+    h = anglevert*206265+(pixely*math.cos(anglehoriz)-pixelx*math.sin(anglehoriz))*pixscale
+    A = boussole*206265+(pixelx*math.cos(anglehoriz)+pixely*math.sin(anglehoriz))*pixscale
 
     return(h,A)
 
-def conv_altaz_to_IOD(h,A,signe,angleform,posuncert, date,timeuncert, objectnumber, stationnumber, stationstatut, filename):
+def conv_altaz_to_IOD(h,A,signe,angleform,posuncert, date,timeuncert, objectnumber, opticalbehaviour, vismagsign, visualmagnitude, magnitudeuncert, flashperiode, stationnumber, stationstatut, filename):
 
     # ecrit les donnes sous le format IOD et les enregistre dans un fichier txt
     os.system('ls')
     filename = filename[2:len(filename)]
     File = open(filename, "w")
-    str1= objectnumber + " " + stationnumber + " " + stationstatut + " " + date + " " + timeuncert + " " + angleform \
-    + " " + " " + A + signe + h + " " + posuncert + "                "
+    str1 = objectnumber + " " + stationnumber + " " + stationstatut + " " + date + " " + timeuncert + " " + angleform \
+    + " " + A + signe + h + " " + posuncert + " " + opticalbehaviour + vismagsign + visualmagnitude \
+    + " " + magnitudeuncert + " " + flashperiode
     File.write(str1)
     File.write("\n")
     File.close()

@@ -6,7 +6,7 @@ from utils.lines import *
 
 palette = [(255,0,0),(0,255,0),(255,255,0),(255,0,255),(0,255,255)] #red, green, yellow, majenta, cyan
 
-def distinguish_satellites(h,w, h_results, threshold = 200000.):
+def distinguish_satellites(h, w, h_results, threshold = 200000.):
     """
     from all lines detected by hough, retrieve one line per streak in the image
     Parameters
@@ -53,8 +53,7 @@ def get_window_from_line(img, line, theta_step = 0.1*math.pi/180., theta_midrang
         final_j = np.arange(-theta_midrange,theta_midrange+1)
         result_band = np.arange(-axis_midrange, axis_midrange)
         return rho, line[0][1] + theta_step * final_j, result_band
-    # return rho,
-
+    
 def get_satellites_blocs(img, h_result):
     rs = []
     ts = []
@@ -63,7 +62,7 @@ def get_satellites_blocs(img, h_result):
     lines = distinguish_satellites(h, w, h_result) # must distinguish satellites
     #lines = h_result
     for i, line in enumerate(lines):
-        r,t,b= get_window_from_line(img, line, theta_step = 0.05*math.pi/180., theta_midrange = 2, axis_midrange = 5)
+        r,t,b = get_window_from_line(img, line, theta_step = 0.05*math.pi/180., theta_midrange = 2, axis_midrange = 5)
         if b is not None:
             rs.append(r)
             ts.append(t)
@@ -71,7 +70,6 @@ def get_satellites_blocs(img, h_result):
     return lines, rs, ts, bs
 
 def retrieve_raw_satellites(crop, h_result):
-
     filterSize = (30, 30)
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, filterSize)
     tophat_img = cv2.morphologyEx(crop, cv2.MORPH_TOPHAT, kernel)
@@ -80,6 +78,7 @@ def retrieve_raw_satellites(crop, h_result):
     lines, rs, ts, bs = get_satellites_blocs(th_crop, h_result)
     h,w = th_crop.shape
     new = np.zeros((h,w,3)).astype(int) + crop.reshape(h,w,1).astype(int)
+    
     #rho = rs[int(len(rs)/2)]
     #theta = ts[int(len(ts)/2)][int(len(ts)/2)]
     #bresen_line = build_line(rho, theta, 100, h, w)
