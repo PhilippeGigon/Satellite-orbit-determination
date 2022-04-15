@@ -29,23 +29,28 @@ def rv(iodset, n):
     lon3 = float(Station_Coordinates[7])*(np.pi/180)
     h3 = float(Station_Coordinates[8])
 
-    # Extracting observation time:
-    t1 = iodset[0].get_time()
-    t2 = iodset[1].get_time()
-    t3 = iodset[2].get_time()
-    time_s1 = get_lst(lon1, t1)
-    time_s2 = get_lst(lon2, t2)
-    time_s3 = get_lst(lon3, t3)
+    ############################
+    #############TEST###########
+    ############################
+    t1 = 0
+    t2 = 60
+    t3 = 2*60
+    tau = t3-t1
+    tau1 = t1-t2
+    tau3 = t3-t2
 
-    # Creates the vector pointing to the station
-    R1 = np.array(get_R(time_s1, lat1, h1))
-    R2 = np.array(get_R(time_s2, lat2, h2))
-    R3 = np.array(get_R(time_s3, lat3, h3))
+    R1 = np.array([-1825.96, 3583.66, 4933.54])
+    L1 = np.array([-0.301687, 0.200673, 0.932049])
 
-    # Unit vectors pointing to satellite
-    L1 = np.array(iodset[0].get_e(lat1, time_s1))
-    L2 = np.array(iodset[1].get_e(lat2, time_s2))
-    L3 = np.array(iodset[2].get_e(lat3, time_s3))
+    R2 = np.array([-1816.3, 3575.63, 4933.54])
+    L2 = np.array([-0.793090, -0.210324, 0.571640])
+
+    R3 = np.array([-1857.25, 3567.54, 4933.54])
+    L3 = np.array([-0.873085, -0.362969, 0.325539])
+
+    ############################
+    #############TEST###########
+    ############################
 
     if (n == 1):
         t = t1

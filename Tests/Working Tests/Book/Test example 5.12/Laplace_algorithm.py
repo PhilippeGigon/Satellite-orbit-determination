@@ -29,13 +29,18 @@ def rv(iodset, n):
     lon3 = float(Station_Coordinates[7])*(np.pi/180)
     h3 = float(Station_Coordinates[8])
 
-    # Extracting observation time:
-    t1 = iodset[0].get_time()
-    t2 = iodset[1].get_time()
-    t3 = iodset[2].get_time()
-    time_s1 = get_lst(lon1, t1)
-    time_s2 = get_lst(lon2, t2)
-    time_s3 = get_lst(lon3, t3)
+    ############################
+    #############TEST###########
+    ############################
+    t1 = 0
+    t2 = 118.10
+    t3 = 237.58
+    time_s1 = 44.506*constants.degtorad
+    time_s2 = 45.0*constants.degtorad
+    time_s3 = 45.499*constants.degtorad
+    ############################
+    #############TEST###########
+    ############################
 
     # Creates the vector pointing to the station
     R1 = np.array(get_R(time_s1, lat1, h1))

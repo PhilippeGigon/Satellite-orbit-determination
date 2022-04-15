@@ -41,11 +41,24 @@ def rv(iodset, n):
     R1 = np.array(get_R(time_s1, lat1, h1))
     R2 = np.array(get_R(time_s2, lat2, h2))
     R3 = np.array(get_R(time_s3, lat3, h3))
-
-    # Unit vectors pointing to satellite
-    L1 = np.array(iodset[0].get_e(lat1, time_s1))
-    L2 = np.array(iodset[1].get_e(lat2, time_s2))
-    L3 = np.array(iodset[2].get_e(lat3, time_s3))
+    ############################
+    #############TEST###########
+    ############################
+    t1 = 0
+    t2 = 5*60
+    t3 = 10*60
+    tau = t3-t1
+    tau1 = t1-t2
+    tau3 = t3-t2
+    L1 = np.array([0.8464268, 0, 0.532504])
+    L2 = np.array([0.749290, 0.463023, 0.473470])
+    L3 = np.array([0.529447, 0.777163, 0.340152])
+    R1 = np.array([5582.84, 0, 3073.9])
+    R2 = np.array([5581.5, 122.122, 3073.9])
+    R3 = np.array([5577.5, 244.186, 3073.9])
+    ############################
+    #############TEST###########
+    ############################
 
     if (n == 1):
         t = t1
