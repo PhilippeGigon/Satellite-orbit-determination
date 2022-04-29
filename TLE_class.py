@@ -57,7 +57,7 @@ class TLE:
             Omega = 360 - Omega
 
         # eccentricity - new variant
-        ev = 1/constants.mu * np.linalg.cross(self.v, h) - 1/rn * self.r
+        ev = 1/constants.mu * np.cross(self.v, h) - 1/rn * self.r
         e = np.linalg.norm(ev)
 
         # argument of perigee
