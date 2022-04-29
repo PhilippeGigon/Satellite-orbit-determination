@@ -76,7 +76,7 @@ class TLE:
 
         # mean motion
         a = np.linalg.norm(h)**2/(constants.mu*(1-e**2))
-        n = np.sqrt(constants.mu/a**3)
+        n = np.sqrt(constants.mu/a**3) *3600*24/(2*constants.pi)
 
         return i, Omega, e, omega, M, n
 
