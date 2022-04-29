@@ -62,7 +62,7 @@ class TLE:
 
         # argument of perigee
         omega = self.rad2deg(np.arccos(np.dot(N, ev)/(e*np.linalg.norm(N))))
-        if e[2] < 0:
+        if ev[2] < 0:
             omega = 360-omega
 
         # true anomaly
