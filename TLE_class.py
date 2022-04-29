@@ -54,7 +54,7 @@ class TLE:
         nxn = N[0]/np.linalg.norm(N)
         Omega = self.rad2deg(np.arccos(nxn))
         if N[1] < 0:
-            Omega = 360 - Omega
+            Omega = abs(360 - Omega)
 
         # eccentricity - new variant
         ev = 1/constants.mu * np.cross(self.v, h) - 1/rn * self.r
@@ -62,9 +62,13 @@ class TLE:
 
         # argument of perigee
         omega = self.rad2deg(np.arccos(np.dot(N, ev)/(e*np.linalg.norm(N))))
+        if e[2] < 0:
+            omega = 360-omega
 
         # true anomaly
         theta = np.arccos(np.dot(ev, self.r)/(e*rn))
+        if vr < 0:
+            theta = 2*constants.pi - theta
 
         # mean anomaly
         E = np.arctan((np.sqrt(1-e**2)*np.sin(theta)) / (np.cos(theta) + e))
