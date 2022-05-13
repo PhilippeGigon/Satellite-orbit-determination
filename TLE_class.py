@@ -59,6 +59,8 @@ class TLE:
         # eccentricity - new variant
         ev = 1/constants.mu * np.cross(self.v, h) - 1/rn * self.r
         e = np.linalg.norm(ev)
+	if e > 1:
+	    raise ValueError("Eccentricity is greater than 1")
 
         # argument of perigee
         omega = self.rad2deg(np.arccos(np.dot(N, ev)/(e*np.linalg.norm(N))))
