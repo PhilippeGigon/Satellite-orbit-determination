@@ -25,7 +25,6 @@ def distinguish_satellites(h, w, h_results, threshold = 200000.):
         (rho, theta) parameters defining a line per streak
     """
     if h_results is not None and len(h_results) > 0:
-        #print(h_results, h_results.shape)
         filtered_lines = h_results
         n = len(filtered_lines)
         m_lines = []

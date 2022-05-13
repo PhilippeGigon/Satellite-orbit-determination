@@ -1,7 +1,7 @@
 import math
 import os
 
-def pixelscale (pixelsize = 5.97, focal = 35):
+def pixelscale (pixelsize, focal):
     # computes the pixelscale i.e. the angular width and height of a pixel
     # arguments : pixelsize: in microns, focal:  telescope focal length in mm
     # outputs : pixelscale in arcseconds

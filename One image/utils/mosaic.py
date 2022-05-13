@@ -6,7 +6,7 @@ from utils.filtre import *
 def get_raw_image(filename):
     global_start = time.time()
     DATAPATH = './Processed/ImgCompressed/'
-    filename2 = DATAPATH+filename
+    filename2 = DATAPATH + filename
     raw_img = Image.open(filename)
     raw_img = filtre(raw_img)
     

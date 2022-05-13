@@ -155,8 +155,8 @@ def time_from_str_to_datetime(date):
     return t
 
 def time_from_datetime_to_str(t):
-    date=t.strftime("%Y%m%d%H%M%S%f")
-    date=date[:-3]
+    date = t.strftime("%Y%m%d%H%M%S%f")
+    date = date[:-3]
     return date
 
 def time_beginning(date):

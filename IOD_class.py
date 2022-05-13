@@ -19,7 +19,7 @@ from Coordinates_conversion import *
 def is_IOD(IOD_candidate):
     ''''Tests if a given string is an IOD with the right format or not'''
     match = re.match(
-        "[0-9]{5}\s[0-9]{2}\s[0-9]{3}[A-Z]{3}\s[0-9]{4}\s[A-Z]\s[0-9]{17}\s[0-9]{2}\s[0-9]{2}\s[0-9]{7}[+-][0-9]{6}\s[0-9]{2}\s[A-Z]\+[A-Z a-z]{3}\s[A-Z a-z]{2}\s[A-Z a-z]{6}", IOD_candidate)
+        "[0-9]{5}\s[0-9]{2}\s[0-9]{3}[A-Z]{3}\s[0-9]{4}\s[A-Z]\s[0-9]{17}\s[0-9]{2}\s[0-9]{2}\s[0-9]{8}[+-][0-9]{7}\s[0-9]{2}\s[A-Z]\+[A-Z a-z]{3}\s[A-Z a-z]{2}\s[A-Z a-z]{6}", IOD_candidate)
     return match
 #############################################################
 
@@ -59,7 +59,7 @@ class IOD:
     # Encodes the initial data (IOD)
     def __init__(self, IOD_string):
         # The different elements are seperated by empty space in IOD
-        # Methods
+        # Methods IOD_string.split(" ")
         a, b, c, d, e, f, g, h, i, j, k, l, m = IOD_string.split(" ")
         self.Object_ID = a
         self.Station_ID = b
@@ -91,13 +91,13 @@ class IOD:
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
                 RaS = int(X[4:6])
-                Ras = int(X[6:7])
+                Ras = int(X[6:8])
                 self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
-                              15*Ras/36000)*constants.degtorad  # Radians
+                              15*Ras/360000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
                 DecM = int(Y[2:4])
-                DecS = int(Y[4:6])
-                self.DecRad = -(DecD + DecM/60+DecS/3600) * \
+                DecS = int(Y[4:7])
+                self.DecRad = -(DecD + DecM/60+DecS/36000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:
@@ -105,13 +105,13 @@ class IOD:
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
                 RaS = int(X[4:6])
-                Ras = int(X[6:7])
+                Ras = int(X[6:8])
                 self.RaRad = ((360/24)*RaH+RaM/60+RaS/3600 +
-                              Ras/36000)*constants.degtorad  # Radians
+                              Ras/360000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
                 DecM = int(Y[2:4])
-                DecS = int(Y[4:6])
-                self.DecRad = (DecD + DecM/60+DecS/3600) * \
+                DecS = int(Y[4:7])
+                self.DecRad = (DecD + DecM/60+DecS/36000) * \
                     constants.degtorad  # Radians
                     
         if (int(h[0:1]) == 2):
@@ -120,24 +120,24 @@ class IOD:
                 X, Y = i.split("-")
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
-                Ram = int(X[4:7])
-                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/60000)*constants.degtorad  # Radians
+                Ram = int(X[4:8])
+                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/600000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
                 DecM = int(Y[2:4])
-                Decm = int(Y[4:6])
-                self.DecRad = -(DecD + DecM/60+Decm/6000) * \
+                Decm = int(Y[4:7])
+                self.DecRad = -(DecD + DecM/60+Decm/60000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:
                 X, Y = i.split("+")
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
-                Ram = int(X[4:7])
-                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/60000)*constants.degtorad  # Radians
+                Ram = int(X[4:8])
+                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/600000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
                 DecM = int(Y[2:4])
-                Decm = int(Y[4:6])
-                self.DecRad = (DecD + DecM/60+Decm/6000) * \
+                Decm = int(Y[4:7])
+                self.DecRad = (DecD + DecM/60+Decm/60000) * \
                     constants.degtorad  # Radians
                     
         if (int(h[0:1]) == 3):
@@ -146,23 +146,22 @@ class IOD:
                 X, Y = i.split("-")
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
-                Ram = int(X[4:7])
-                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/60000)*constants.degtorad  # Radians
+                Ram = int(X[4:8])
+                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/600000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
-                Decd = int(Y[2:6])
-                self.DecRad = -(DecD + Decd/10000) * \
+                Decd = int(Y[2:7])
+                self.DecRad = -(DecD + Decd/100000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:
                 X, Y = i.split("+")
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
-                Ram = int(X[4:7])
-                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/60000)*constants.degtorad  # Radians
+                Ram = int(X[4:8])
+                self.RaRad = ((360/24)*RaH+15*RaM/60+15*Ram/600000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
-                DecM = int(Y[2:4])
-                Decm = int(Y[4:6])
-                self.DecRad = (DecD + Decd/10000) * \
+                Decd = int(Y[2:7])
+                self.DecRad = (DecD + Decd/100000) * \
                     constants.degtorad  # Radians     
         
         if (int(h[0:1]) == 7):
@@ -172,12 +171,12 @@ class IOD:
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
                 RaS = int(X[4:6])
-                Ras = int(X[6:7])
+                Ras = int(X[6:8])
                 self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
-                              15*Ras/36000)*constants.degtorad  # Radians
+                              15*Ras/360000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
-                Decd = int(Y[2:6])
-                self.DecRad = -(DecD + Decd/10000) * \
+                Decd = int(Y[2:7])
+                self.DecRad = -(DecD + Decd/100000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:
@@ -185,12 +184,12 @@ class IOD:
                 RaH = int(X[0:2])
                 RaM = int(X[2:4])
                 RaS = int(X[4:6])
-                Ras = int(X[6:7])
+                Ras = int(X[6:8])
                 self.RaRad = ((360/24)*RaH+15*RaM/60+15*RaS/3600 +
-                              15*Ras/36000)*constants.degtorad  # Radians
+                              15*Ras/360000)*constants.degtorad  # Radians
                 DecD = int(Y[0:2])
-                Decd = int(Y[2:6])
-                self.DecRad = (DecD + Decd/10000) * \
+                Decd = int(Y[2:7])
+                self.DecRad = (DecD + Decd/100000) * \
                     constants.degtorad  # Radians                                    
 
         if (int(h[0:1]) == 4):
@@ -199,24 +198,24 @@ class IOD:
                 X, Y = i.split("-")
                 AzD = int(X[0:3])
                 AzM = int(X[3:5])
-                AzS = int(X[5:7])
-                self.AzRad = (AzD+AzM/60+AzS/3600)*constants.degtorad  # Radians
+                AzS = int(X[5:8])
+                self.AzRad = (AzD+AzM/60+AzS/36000)*constants.degtorad  # Radians
                 AltD = int(Y[0:2])
                 AltM = int(Y[2:4])
-                AltS = int(Y[4:6])
-                self.AltRad = -(AltD + AltM/60+AltS/3600) * \
+                AltS = int(Y[4:7])
+                self.AltRad = -(AltD + AltM/60+AltS/36000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:
                 X, Y = i.split("+")
                 AzD = int(X[0:3])
                 AzM = int(X[3:5])
-                AzS = int(X[5:7])
-                self.AzRad = (AzD+AzM/60+AzS/3600)*constants.degtorad  # Radians
+                AzS = int(X[5:8])
+                self.AzRad = (AzD+AzM/60+AzS/36000)*constants.degtorad  # Radians
                 AltD = int(Y[0:2])
                 AltM = int(Y[2:4])
-                AltS = int(Y[4:6])
-                self.AltRad = (AltD + AltM/60+AltS/3600) * \
+                AltS = int(Y[4:7])
+                self.AltRad = (AltD + AltM/60+AltS/36000) * \
                     constants.degtorad  # Radians
         
         if (int(h[0:1]) == 5):
@@ -225,24 +224,24 @@ class IOD:
                 X, Y = i.split("-")
                 AzD = int(X[0:3])
                 AzM = int(X[3:5])
-                Azm = int(X[5:7])
-                self.AzRad = (AzD+AzM/60+Azm/6000)*constants.degtorad  # Radians
+                Azm = int(X[5:8])
+                self.AzRad = (AzD+AzM/60+Azm/60000)*constants.degtorad  # Radians
                 AltD = int(Y[0:2])
                 AltM = int(Y[2:4])
-                Altm = int(Y[4:6])
-                self.AltRad = -(AltD + AltM/60+Altm/6000) * \
+                Altm = int(Y[4:7])
+                self.AltRad = -(AltD + AltM/60+Altm/60000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:
                 X, Y = i.split("+")
                 AzD = int(X[0:3])
                 AzM = int(X[3:5])
-                Azm = int(X[5:7])
-                self.AzRad = (AzD+AzM/60+Azm/6000)*constants.degtorad  # Radians
+                Azm = int(X[5:8])
+                self.AzRad = (AzD+AzM/60+Azm/60000)*constants.degtorad  # Radians
                 AltD = int(Y[0:2])
                 AltM = int(Y[2:4])
-                Altm = int(Y[4:6])
-                self.AltRad = (AltD + AltM/60+Altm/6000) * \
+                Altm = int(Y[4:7])
+                self.AltRad = (AltD + AltM/60+Altm/60000) * \
                     constants.degtorad  # Radians                                  
 
         if (int(h[0:1]) == 6):
@@ -250,11 +249,11 @@ class IOD:
             if "-" in i:
                 X, Y = i.split("-")
                 AzD = int(X[0:3])
-                Azd = int(X[3:7])
-                self.AzRad = (AzD+Azd/10000)*constants.degtorad  # Radians
+                Azd = int(X[3:8])
+                self.AzRad = (AzD+Azd/100000)*constants.degtorad  # Radians
                 AltD = int(Y[0:2])
-                Altd = int(Y[2:6])
-                self.AltRad = -(AltD + Altd/10000) * \
+                Altd = int(Y[2:7])
+                self.AltRad = -(AltD + Altd/100000) * \
                     constants.degtorad  # Radians
 
             if "+" in i:

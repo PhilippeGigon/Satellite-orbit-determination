@@ -24,10 +24,6 @@ def process_one_img(args, inputname, outputname):
     filenamelines = DATAPATH + outputname[:-4] + 'final.npy'
     inputname2 = './Processed/ImgCompressed/' + inputname[:-4]+'compressed.jpg'
     Beginnings, Middles, Endings, Sets = position(inputname2, filenamelines)
-    #print('Beginnings: ', Beginnings)
-    #print('Middles: ', Middles)
-    #print('Endings: ', Endings)
-
     #----------Save_Image_with_lines+points----------------------
     save_img_zentren(inputname2, outputname, Beginnings, Middles, Endings, Sets)
 

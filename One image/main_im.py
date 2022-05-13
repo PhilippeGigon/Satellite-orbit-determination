@@ -44,16 +44,6 @@ def main(args):
         os.makedirs("./Processed/IOD")
     except OSError as error:
         pass 
-    '''
-    #os.makedirs("./Processed/Lines")
-    os.makedirs("./Processed/Beginnings")
-    os.makedirs("./Processed/Middles")
-    os.makedirs("./Processed/Endings")
-    os.makedirs("./Processed/Sets")
-    os.makedirs("./Processed/ImgCompressed")
-    os.makedirs("./Processed/ImgLines")
-    os.makedirs("./Processed/ImgCenter")
-    os.makedirs("./Processed/IOD") '''
         
     print('Parameters are read')
     time, agvert, aghoriz, bouss, stnb, ststatut, texpos, focal, pixsize = read_param("parametres.txt")
@@ -72,10 +62,6 @@ def main(args):
 
     print('Creation of one IOD document')
     one_IOD(IODs)
-
-    #print('Lancement de Elfind')
-    #path = os.getcwd()
-    #Run_elfind_on_sats(path)
 
 if __name__ == '__main__':
     main(prologue.get_args())

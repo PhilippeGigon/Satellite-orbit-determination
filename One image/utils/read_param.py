@@ -14,22 +14,22 @@ def read_param(param_filename):
     pixelsizeidx = entete.index("Pixsize")
     stationnbidx = entete.index("StationNumber")
     stationstatutidx = entete.index("StationStatut")
-    timeexposidx= entete.index("TmpsExposition") #en secondes
+    timeexposidx= entete.index("TmpsExposition") #in seconds
     timeidx=entete.index("Time")
     #nameinputidx=entete.index("Input")
     #nameoutputidx=entete.index("Output")
 
-    focal=float(param[focalidx])
-    pixsize=float(param[pixelsizeidx])
-    agvert=float(param[anglevertidx])
-    aghoriz=float(param[anglehorizidx])
-    bouss=float(param[boussoleidx])
-    stnb=param[stationnbidx]
+    focal = float(param[focalidx])
+    pixsize = float(param[pixelsizeidx])
+    agvert = float(param[anglevertidx])
+    aghoriz = float(param[anglehorizidx])
+    bouss = float(param[boussoleidx])
+    stnb = param[stationnbidx]
     ststatut = param[stationstatutidx]
-    texpos=float(param[timeexposidx])
-    timestr=param[timeidx]
+    texpos = float(param[timeexposidx])
+    timestr = param[timeidx]
 
-    time=time_from_str_to_datetime(timestr)
+    time = time_from_str_to_datetime(timestr)
     #inputname=param[nameinputidx]
     #outputname=param[nameoutputidx]
 

@@ -1,0 +1,4 @@
+Time,Input,Output,Boussole,AngleVert,AngleHoriz,Focale,Pixsize,StationNumber,StationStatut,TmpsExposition
+20220427214049029,2022-04-27_234049_frame0035_nobackground.jpg,2022-04-27_234049_frame0035__nobackground_output.jpg,-18.93,0.403628,1.315052,790,3.76,0001,F,0.5
+20220427214050097
+20220427214051170

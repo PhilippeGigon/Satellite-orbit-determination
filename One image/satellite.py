@@ -12,10 +12,8 @@ def norm(trace_a, trace_b):
     time = time_from_str_to_datetime(time)
     timebis = time_from_str_to_datetime(timebis)
     time_char = datetime.timedelta(minutes = 4)
-    print('TIMECHAR', time_char)
     #   end
     delta = abs(time - timebis)
-    print('DELTA', delta)
     if delta > time_char:
         return 1e6
     else:

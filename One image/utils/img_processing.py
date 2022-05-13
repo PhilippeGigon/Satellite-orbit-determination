@@ -26,8 +26,6 @@ def process_block(params):  # partie technique importante du traitement de la ma
     lines = cv2.HoughLines(np.uint8(imgs_final[0]), 1, np.pi / 180, h_threshold)
     end = time.time()
     #print('... Ending Hough Processing after %d min %d sec' % tuple([seconds // 60, seconds % 60]))
-    #print('Nb of lines',len(lines))
-    #print('SAVING LINES')
     if save_lines :
         if lines is None :
             lines = np.array([])

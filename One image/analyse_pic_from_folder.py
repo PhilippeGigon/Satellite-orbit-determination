@@ -24,8 +24,6 @@ def read_img_times(param):
 
 def analyse_pic_from_folder(args):
 
-    #os.chdir(args.folder)
-
     img_names = read_img_name('param_img.txt')
     img_times = read_img_times('param_img.txt')
 
