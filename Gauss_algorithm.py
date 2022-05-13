@@ -40,7 +40,7 @@ def solveroot(A, B, C):
 ###############################################################
 
 
-def find_r(iodset, itmax, epsilon):
+def find_r(iodset, itmax, epsilon, CircularOrbit):
     '''This code takes an array of IOD' and then computes
     two vectors r1 and r2 pointing to the satellite
     It uses the Gauss method. itmax is the max number of iterations
@@ -185,6 +185,11 @@ def find_r(iodset, itmax, epsilon):
         v2 = 1/(f1*g3-f3*g1)*(-f3*r1+f1*r3)
 
         n_iteration = n_iteration+1
+    # Imposes velocity norm in case of circular orbit assumption
+    if CircularOrbit:
+        v2norm = np.linalg.norm(v2)
+        r2norm = np.linalg.norm(r2)
+        vc = math.sqrt(mukm/r2norm)
 
     # Converts back to SI units
     r1 = r1*1000

@@ -17,7 +17,7 @@ def main():
     itmax = 1000
 
     # Computes speed and position of satellite
-    r2, v2 = Gauss_algorithm.find_r(IODset, itmax, prec)
+    r2, v2 = Gauss_algorithm.find_r(IODset, itmax, prec, True)
 
     # Corresponding observatioPositionn time
     t2 = IODset[1].get_time()
