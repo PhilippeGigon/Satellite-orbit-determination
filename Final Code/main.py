@@ -12,7 +12,7 @@ def main():
 
     # Gauss orbit determination
     # precision
-    prec = 0.1
+    prec = 0.0001
     # maximal iterations for Gauss algorithm
     itmax = 1000
 
@@ -25,8 +25,6 @@ def main():
 
     # Create TLE
     tle = TLE(TLEinput)
-    tle_list = tle.list_TLE()
-    print(tle_list)
 
     # Create TLE file
     tle.TLE_format()
