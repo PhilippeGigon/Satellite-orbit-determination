@@ -73,7 +73,7 @@ class TLE:
             theta = 2*constants.pi - theta
 
         # mean anomaly
-        E = np.arctan((np.sqrt(1-e**2)*np.sin(theta)) / (np.cos(theta) + e))
+        E = np.arcsin((np.sqrt(1-e**2)*np.sin(theta)) / (e*np.cos(theta) + 1))
         M = self.rad2deg(E - e*np.sin(E))
 
         # mean motion
