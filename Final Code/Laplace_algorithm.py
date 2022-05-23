@@ -37,12 +37,12 @@ def rv(iodset, n):
     time_s2 = get_lst(lon2, t2)
     time_s3 = get_lst(lon3, t3)
 
-    # Creates the vector pointing to the station
+    # Creates the vector pointing from the center of the earth to the station
     R1 = np.array(get_R(time_s1, lat1, h1))
     R2 = np.array(get_R(time_s2, lat2, h2))
     R3 = np.array(get_R(time_s3, lat3, h3))
 
-    # Unit vectors pointing to satellite
+    # Unit vectors pointing to satellite from station
     L1 = np.array(iodset[0].get_e(lat1, time_s1))
     L2 = np.array(iodset[1].get_e(lat2, time_s2))
     L3 = np.array(iodset[2].get_e(lat3, time_s3))
@@ -69,7 +69,7 @@ def rv(iodset, n):
     Rdot = np.array([[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]])  # ToDo
     Rddot = np.array([[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]])  # ToDo
 
-    # linear test
+    # linear interpolation of Rddot
     Rd1 = (R[1]-R[0])/(t2-t1)
     Rd2 = (R[2]-R[1])/(t3-t2)
     Rdd = 2*(Rd2-Rd1)/(t3-t1)
@@ -93,7 +93,7 @@ def rv(iodset, n):
     C2 = 8*constants.mukm*D1*D2/(D**2) - 4*constants.mukm*D2*LR/D
     C3 = 4*constants.mukm**2*D2**2/(D**2)
 
-    # iteratice process to solve the eight order equation for r2n the norm of r2
+    # iterative process to solve the eight order equation for r2n, the norm of r2
     rn = 300 + constants.Re/1000  # first estimation: hight of ISS
     ri = 0
     while (abs(rn - ri) > 0.001):
@@ -105,20 +105,14 @@ def rv(iodset, n):
     rho = -2*D1/D - 2*constants.mukm*D2/(D*rn**3)
 
     r = rho*L + R[n-1]
-    #########################################
-    # Everything up to here is fine
-    # Problem with Lddot, Rddot probably
-    #########################################
+    #calculation of the velocity
     D3 = np.linalg.det([[L[0], Rddot[n-1][0], Lddot[0]],
                         [L[1], Rddot[n-1][1], Lddot[1]],
                         [L[2], Rddot[n-1][2], Lddot[2]]])
     D4 = np.linalg.det([[L[0], R[n-1][0], Lddot[0]],
                         [L[1], R[n-1][1], Lddot[1]],
                         [L[2], R[n-1][2], Lddot[2]]])
-    rhodot = -D3/D - constants.mukm*D4/(D*(r**3))
-    #########################################
-    # This (nearly) solves the problem: rhodot = 0
-    #########################################
+    rhodot = -D3/D - constants.mukm*D4/(D*(np.linalg.norm(r)**3))
     v = rhodot*L + rho*Ldot + Rdot[n-1]
     return r, v
 
